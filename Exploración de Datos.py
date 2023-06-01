@@ -69,6 +69,13 @@ for columna in datos_filtrados.columns:
 datos_filtrados = datos_filtrados.dropna()
 
 # Datos categorizados 
+def categorizar_genero(estu_genero):
+    if estu_genero == 'F' :
+        return 1
+    else:
+        return 0
+datos_filtrados['estu_genero'] = datos_filtrados['estu_genero'].apply(categorizar_genero) 
+    
 def categorizar_personas_hogar(fami_personashogar):
     if fami_personashogar == '1 a 2' or fami_personashogar == '3 a 4':
         return 'Poco'
@@ -91,6 +98,12 @@ def categorizar_estrato(fami_estratovivienda):
         return 6
     else:
         return 0
+def categorizar_cole(cole_naturaleza):
+    if cole_naturaleza == 'OFICIAL':
+        return 1
+    else:
+        return 0
+datos_filtrados['cole_naturaleza'] = datos_filtrados['cole_naturaleza'].apply(categorizar_cole)
         
 datos_filtrados['fami_estratovivienda'] = datos_filtrados['fami_estratovivienda'].apply(categorizar_estrato)
 
@@ -188,4 +201,4 @@ print(datos_filtrados.dtypes)
 
 
 
-#datos_filtrados.to_csv("datos_filtrados", index=False)
+datos_filtrados.to_csv("datos_filtrados", index=False)

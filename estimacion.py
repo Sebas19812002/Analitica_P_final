@@ -35,7 +35,7 @@ mod_fit.fit(data=train_data , estimator = BayesianEstimator)
 
 mod_fit.check_model()
 
-
+mod_fit.cpds
 #Serializar el modelo
 writer = BIFWriter(mod_fit)
 writer.write_bif(filename='Modelo.bif')
