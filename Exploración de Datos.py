@@ -173,9 +173,9 @@ def categorizar_educacion_padre(fami_educacionpadre):
 datos_filtrados['Educacion_Padre'] = datos_filtrados['fami_educacionpadre'].apply(categorizar_educacion_padre)
 
 def categorizar_puntaje(punt_global):
-    if punt_global >= 320 :
+    if punt_global >= 280 :
         return 'Aceptado'
-    elif punt_global < 320:
+    elif punt_global < 280:
         return 'Rechazado'
     else:
         return 'Hay algo mal'
@@ -199,6 +199,14 @@ for columna in datos_filtrados.columns:
     print()
 print(datos_filtrados.dtypes)
 
+Aceptados = datos_filtrados['Puntaje_obtenido'].value_counts()['Aceptado']
+Rechazados = datos_filtrados['Puntaje_obtenido'].value_counts()['Rechazado']
 
+#Equilibrar muestra
+condicion = datos_filtrados['Puntaje_obtenido'] == 'Rechazado'
+indices_a_eliminar = datos_filtrados[condicion].sample(n=60000).index
+df_sin_filas = datos_filtrados.drop(indices_a_eliminar)
 
-datos_filtrados.to_csv("datos_filtrados", index=False)
+Aceptados = df_sin_filas['Puntaje_obtenido'].value_counts()['Aceptado']
+Rechazados = df_sin_filas['Puntaje_obtenido'].value_counts()['Rechazado']
+#datos_filtrados.to_csv("datos_filtrados", index=False)
