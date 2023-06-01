@@ -158,10 +158,6 @@ datos_filtrados['Puntaje_obtenido'] = datos_filtrados['punt_global'].apply(categ
 columnas_a_eliminar = ['fami_personashogar','fami_educacionmadre','fami_educacionpadre','punt_global']
 datos_filtrados = datos_filtrados.drop(columnas_a_eliminar, axis=1)
 
-
-
-
-
 for columna in datos_filtrados.columns:
     categorias = datos_filtrados[columna].unique()
 
@@ -169,4 +165,12 @@ for columna in datos_filtrados.columns:
     print(categorias)
     print()
 
+# Guardar el dataframe modificado en un nuevo archivo de Excel
+ruta_nuevo_archivo = 'C:/Users/User/Documents/Septimo Semestre/ACTO/Proyecto3/Analitica_P_final/datos_filtrados.csv'
+datos_filtrados.to_csv(ruta_nuevo_archivo, index=False)
 
+
+
+"""
+datos_filtrados.to_csv("Datos_Finales",index=False )
+"""

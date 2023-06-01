@@ -13,48 +13,109 @@ from pgmpy.estimators import MaximumLikelihoodEstimator
 from pgmpy.readwrite import BIFReader
 
 
-def estimar(radio1, dropdown1, dropdown2):
+def estimar(radio1,radio2,radio3, dropdown1, dropdown2, dropdown3, dropdown4):
 
     Sex=9
-    if radio1 == 'Hombre':
+    if radio1 == 'F':
        Sex="1"
-    elif radio1 ==  'Mujer':
+    elif radio1 ==  'M':
        Sex="0"
    
-    edad = 9
-    if dropdown1 == "Entre 29 y 39 años":
-        edad = "1"
-    elif dropdown1 == "Entre 40 y 54 años":
-            edad = "2"
-    elif dropdown1 == "Entre 55 y 64 años":
-        edad = "3"
-    elif dropdown1 == "Entre 65 y 79 años":
-        edad ="4"
+    Ubicacion=9
+    if radio2 == 'URBANO':
+       Ubicacion="1"
+    elif radio2 ==  'RURAL':
+       Ubicacion="0"
+     
+    Colegio=9
+    if radio3 == 'OFICIAL':
+       Colegio="1"
+    elif radio3 ==  'NO OFICIAL':
+       Colegio="0"   
     
-    CP = 9
-    if dropdown2 == 'Angina típica':
-        CP = "1"
-    elif dropdown2 == 'Angina atípica':
-        CP = "2"
-    elif dropdown2 == 'Dolor no anginoso':
-        CP = "3"
-    elif dropdown2 == 'Asintomático':
-        CP = "4"
+    Estrato = 9
+    if dropdown1 == "Estrato 1":
+        Estrato = "1"
+    elif dropdown1 == "Estrato 2":
+        Estrato= "2"
+    elif dropdown1 == "Estrato 3":
+        Estrato = "3"
+    elif dropdown1 == "Estrato 4":
+        Estrato ="4"
+    elif dropdown1 == "Estrato 5":
+        Estrato ="5"   
+    elif dropdown1 == "Estrato 6":
+        Estrato ="6"
+    elif dropdown1 == "Sin Estrato":
+        Estrato ="0"
     
-
-   
+    Per_Hogar = 9
+    if dropdown2 == "Poco":
+        Per_Hogar = "0"
+    elif dropdown2 == "Medio":
+        Per_Hogar= "1"
+    elif dropdown2 == "Alto":
+        Per_Hogar = "2"
+       
+        
+    Edu_madre = 9
+    if dropdown3 == "EPC":
+        Edu_madre = "1"
+    elif dropdown3 == "PC":
+        Edu_madre= "2"
+    elif dropdown3 == "EPI":
+        Edu_madre= "3"
+    elif dropdown3 == "SBC":
+        Edu_madre= "4"
+    elif dropdown3 == "SBI":
+        Edu_madre= "5"
+    elif dropdown3 == "NS":
+        Edu_madre= "6"
+    elif dropdown3 == "TI":
+        Edu_madre= "7"
+    elif dropdown3 == "TC":
+        Edu_madre= "8"
+    elif dropdown3 == "N":
+        Edu_madre= "9"
+    elif dropdown3 == "PI":
+        Edu_madre= "10"
+    elif dropdown3 == "P":
+        Edu_madre= "11"
+    elif dropdown3 == "NA":
+        Edu_madre= "0 "
+        
+        
+    Edu_padre = 9
+    if dropdown4 == "EPC":
+        Edu_padre = "1"
+    elif dropdown4 == "PC":
+        Edu_padre= "2"
+    elif dropdown4 == "EPI":
+        Edu_padre= "3"
+    elif dropdown4 == "SBC":
+        Edu_padre= "4"
+    elif dropdown4 == "SBI":
+        Edu_padre= "5"
+    elif dropdown4 == "NS":
+        Edu_padre= "6"
+    elif dropdown4 == "TI":
+        Edu_padre= "7"
+    elif dropdown4 == "TC":
+        Edu_padre= "8"
+    elif dropdown4 == "N":
+        Edu_padre= "9"
+    elif dropdown4 == "PI":
+        Edu_padre= "10"
+    elif dropdown4 == "P":
+        Edu_padre= "11"
+    elif dropdown4 == "NA":
+        Edu_padre= "0 "   
+        
+      
     modelo = BIFReader("Modelo.bif").get_model()
     inferencia = VariableElimination(modelo)
     evidencia = {}
     
-    if Sex !=9: 
-        evidencia["sex"]= Sex
-   
-    if edad !=9: 
-        evidencia["age"]= edad
-  
-    if CP !=9: 
-        evidencia["cpt"]= CP
    
     
     resultado = inferencia.query(['diagnosis'],evidence=evidencia).values
@@ -110,28 +171,55 @@ app.layout = html.Div([
     
     html.H6(''' Para hacer uso del sistema de datos es necesario realizar lo siguiente:'''),
     html.Div(" 1. Asegurate de ingresar los datos correctamente en las casillas correspondientes, en caso de que no poseas el dato puedes dejar la casilla en blanco."),
-    html.Div(''' 2. Debes ingresar al menos información del género y la edad del paciente para poder generar el resultado. Ten en cuenta que entre más información indiques, más acertada será la valoración.'''),
-    html.Div(" 3. Cuando ingreses todos los datos, por favor da click en el botón 'Continuar' en cual se encuentra debajo de los datos requeridos. "),
-    html.Div(" 4. Luego, fijate de haber completado todos los datos y que el sistema no haya arrojado una alerta, de ser asi, la encontrarás de color rojo debajo del boyon 'Continuar'"),
+    html.Div(" 2. Cuando ingreses todos los datos, por favor da click en el botón 'Continuar', el cual se encuentra debajo de los datos requeridos. "),
+    html.Div(" 3. Finalmente, se mostrará un resumen de los datos, debajo de este, encontrarás gráficas de tu interés y el resultado."),
     
     html.Br(),
     
      html.Div(["Sexo del estudiante: ",
                 dcc.RadioItems(
                 id='Radio-1',
-                options=[{'label': i, 'value': i} for i in ['Hombre', 'Mujer']],
+                options=[{'label': i, 'value': i} for i in ['Femenino', 'Masculino']],
                 labelStyle={'display': 'inline-block'}), 
                 html.Br()],
-                style={'display': 'inline-block','width': '22%'}
-                ),
+                style={'display': 'inline-block','width': '22%'}),
      
      html.Div(["Área de ubicación: ",
               dcc.Dropdown(
-                id='dropdown-1',
-                options=[{'label': i, 'value': i} for i in ["Rural","Urbano"]],value="Seleccione"),
+                id='Radio-2',
+                options=[{'label': i, 'value': i} for i in ["Urbano","Rural"]],value="Seleccione"),
                 html.Br()],
                 style={'display': 'inline-block', 'margin-right': '10px','width': '22%', 'float': 'left', 'display': 'inline-block'}),
    
+    html.Div(["Categoría del Colegio: ",
+              dcc.Dropdown(
+                id='Radio-3',
+                options=[{'label': i, 'value': i} for i in ["Oficial","No Oficial"]],value="Seleccione"),
+                html.Br()],
+                style={'display': 'inline-block', 'margin-right': '10px','width': '22%', 'float': 'left', 'display': 'inline-block'}),
+   
+    html.Div(["Estrato de residencia del estudiante: ",
+              dcc.Dropdown(
+                id='dropdown-1',
+                options=[{'label': i, 'value': i} for i in ['Estrato 1','Estrato 2','Estrato 3','Estrato 4','Estrato 5','Estrato 6','Sin Estrato']],value="Seleccione"),
+                html.Br()],
+                style={'display': 'inline-block', 'margin-right': '10px','width': '22%', 'float': 'left', 'display': 'inline-block'}),
+   
+    html.Div(["Área de ubicación: ",
+              dcc.Dropdown(
+                id='dropdown-2',
+                options=[{'label': i, 'value': i} for i in ["Urbano","Rural"]],value="Seleccione"),
+                html.Br()],
+                style={'display': 'inline-block', 'margin-right': '10px','width': '22%', 'float': 'left', 'display': 'inline-block'}),
+   
+    
+    
+    
+    
+    
+    
+    
+    
     
     html.Div(["Nacionalidad del estudiante: ",
               dcc.Dropdown(
