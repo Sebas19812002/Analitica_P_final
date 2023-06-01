@@ -28,12 +28,19 @@ def Conexion_DB_():
     
     cursor = engine.cursor()
     
-    query = "SELECT * FROM mytable;"
+    query = "SELECT * FROM tabla1;"
     
     cursor.execute(query)
     data=cursor.fetchall()
-    df=pd.DataFrame(data,columns=['id','age', 'sex', 'cpt', 'pressure', 'chol', 'sugar', 'ecg', 'maxbpm',
-           'angina', 'oldpeak', 'slope', 'flourosopy', 'thal', 'diagnosis'])
+    df=pd.DataFrame(data,columns=['cole_area_ubicacion',
+                                  'estu_genero',
+                                  'cole_naturaleza',
+                                  'fami_estratovivienda',
+                                  'Personas_hogar',
+                                  'Educacion_Madre',
+                                  'Educacion_Padre',
+                                  'Puntaje_obtenido',
+                                  'id'])
     datos=df.drop("id", axis=1)
     return datos
 

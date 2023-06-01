@@ -22,9 +22,9 @@ server = app.server
 
 
 #-----------------connect to DB----------------------#
-#datos=F.Conexion_DB_()
-datos = pd.read_csv("datos_filtrados.csv")
-datos.head()
+datos = F.Conexion_DB_()
+# datos = pd.read_csv("datos_filtrados.csv")
+print(datos.head())
 #------------------Graficas--------------------------------#
 
 #################################################################################################
