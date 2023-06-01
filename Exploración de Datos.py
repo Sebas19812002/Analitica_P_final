@@ -168,4 +168,4 @@ for columna in datos_filtrados.columns:
     print(categorias)
     print()
 
-
+#datos_filtrados.to_csv("datos_filtrados", index=False)
