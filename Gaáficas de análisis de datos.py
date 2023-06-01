@@ -113,8 +113,8 @@ fig.subplots_adjust(top=1)
 
 Oficial_Aprobaron= datos.loc[(datos['Puntaje_obtenido'] == 'Aceptado') & (datos['cole_naturaleza'] == "Oficial")].shape[0]
 Oficial_Reprobaron = datos.loc[(datos['Puntaje_obtenido'] == 'Rechazado') & (datos['cole_naturaleza'] == "Oficial")].shape[0]
-No_Oficial_Aprobaron = datos.loc[(datos['Puntaje_obtenido'] == 'Aceptado') & (datos['cole_naturaleza'] == "No Oficial")].shape[0]
-No_Oficial_Reprobaron = datos.loc[(datos['Puntaje_obtenido'] == 'Rechazado') & (datos['cole_naturaleza'] == "No Oficial")].shape[0]
+No_Oficial_Aprobaron = datos.loc[(datos['Puntaje_obtenido'] == 'Aceptado') & (datos['cole_naturaleza'] == "No_oficial")].shape[0]
+No_Oficial_Reprobaron = datos.loc[(datos['Puntaje_obtenido'] == 'Rechazado') & (datos['cole_naturaleza'] == "No_oficial")].shape[0]
 
 y = [ Oficial_Reprobaron, No_Oficial_Reprobaron,Oficial_Aprobaron,No_Oficial_Aprobaron]
 x = ['1','2','3','4']

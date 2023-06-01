@@ -4,6 +4,7 @@ import dash_core_components as dcc
 from dash.dependencies import Input, Output, State
 import base64
 import Funciones as F
+import plotly.graph_objs as go
 
 #http://127.0.0.1:8050/ 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -30,8 +31,33 @@ image = html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()),
 
 
 tab1=dcc.Tab(label='Análisis de la muestra',children=[
-    html.Div('En esta pestaña se encuentra información sobre la distribucón de la muestra de datos'),
-    html.Br()
+    html.Div('En esta pestaña se encuentra información sobre la distribucón de la muestra de datos.'),
+    html.Br(),
+    
+    html.H6('Educacion Madre', style={'float': 'left', 'width': '50%', 'text-align': 'center'}),
+    html.H6('Educacion Padre', style={'float': 'right', 'width': '50%', 'text-align': 'center'}),
+    
+    html.Br(),
+    
+    
+    html.Div(["Si desea ver un estrato en particular seleccionelo en la casilla: ",
+              dcc.Dropdown(
+                id='dropdown-5',
+                options=[{'label': i, 'value': i} for i in ["No Sabe/Ninguno","Estrato 1","Estrato 2","Estrato 3",
+                                                            "Estrato 4","Estrato 5","Estrato 6","Todos"]],value="Todos"),
+                html.Br()],
+                style={'display': 'inline-block', 'margin-left': '10px','margin-right': '20px','width': '45%', 'float': 'left', 'display': 'inline-block'}), 
+    
+    html.Div(["Si desea ver un estrato en particular seleccionelo en la casilla: ",
+              dcc.Dropdown(
+                id='dropdown-6',
+                options=[{'label': i, 'value': i} for i in ["No Sabe/Ninguno","Estrato 1","Estrato 2","Estrato 3",
+                                                            "Estrato 4","Estrato 5","Estrato 6","Todos"]],value="Todos"),
+                html.Br()],
+                style={'display': 'inline-block', 'margin-left': '10px','margin-right': '20px','width': '45%', 'float': 'left', 'display': 'inline-block'}), 
+
+    
+    
 ])
 
 tab2=dcc.Tab(label='Resultados',children=[
@@ -46,7 +72,7 @@ tabs = dcc.Tabs(children=pestanas)
 
 app.layout = html.Div([
     html.Div(children=[image]),
-    
+    html.Br(),
     html.H6(''' Para hacer uso del sistema de datos es necesario realizar lo siguiente:'''),
     html.Div(" 1. Asegurate de ingresar los datos correctamente en las casillas correspondientes, en caso de que no poseas el dato puedes dejar la casilla en blanco."),
     html.Div(" 2. Cuando ingreses todos los datos, por favor da click en el botón 'Continuar', el cual se encuentra debajo de los datos requeridos. "),
@@ -54,13 +80,20 @@ app.layout = html.Div([
     
     html.Br(),
     
+    html.Div(["Para iniciar, porfavor seleccione que tipo de gráfica prefiere: ",
+                dcc.RadioItems(
+                id='Radio-4',
+                options=[{'label': i, 'value': i} for i in [ 'Modelo Normal','Modelo Suavizado']],
+                labelStyle={'display': 'inline-block'},value='Modelo Normal'), 
+                html.Br()]),
+    
      html.Div(["Genero del estudiante: ",
                 dcc.RadioItems(
                 id='Radio-1',
                 options=[{'label': i, 'value': i} for i in ['Femenino', 'Masculino']],
                 labelStyle={'display': 'inline-block'}), 
                 html.Br()],
-                style={'display': 'inline-block','width': '22%'}),
+                style={'display': 'inline-block', 'margin-right': '10px','width': '22%', 'float': 'left', 'display': 'inline-block'}),
      
      html.Div(["Área de ubicación: ",
               dcc.RadioItems(
@@ -74,8 +107,10 @@ app.layout = html.Div([
                 id='Radio-3',
                 options=[{'label': i, 'value': i} for i in ["Oficial","No Oficial"]],value="Seleccione"),
                 html.Br()],
-                style={'display': 'inline-block', 'margin-right': '10px','width': '22%', 'float': 'left', 'display': 'inline-block'}),
-   
+                style={'margin-right': '10px','width': '22%', 'float': 'left'}),
+    
+    html.Br(),
+    
     html.Div(["Estrato de residencia del estudiante: ",
               dcc.Dropdown(
                 id='dropdown-1',
@@ -88,7 +123,7 @@ app.layout = html.Div([
                 id='dropdown-2',
                 options=[{'label': i, 'value': i} for i in ["1 a 4","5 a 6","Más de 7"]],value="Seleccione"),
                 html.Br()],
-                style={'display': 'inline-block', 'margin-right': '10px','width': '22%', 'float': 'left', 'display': 'inline-block'}),  
+                style={'display': 'inline-block', 'margin-right': '10px','width': '22%', 'float': 'left', 'display': 'inline-block'}),
     
     html.Div(["Educación de la madre: ",
               dcc.Dropdown(
@@ -100,6 +135,7 @@ app.layout = html.Div([
                                                             'Postgrado','No sabe','Ninguno' ,'No Aplica']],value="Seleccione"),
                 html.Br()],
                 style={'display': 'inline-block', 'margin-right': '10px','width': '22%', 'float': 'left', 'display': 'inline-block'}),
+   
     html.Div(["Educación del padre: ",
               dcc.Dropdown(
                 id='dropdown-4',
@@ -113,8 +149,8 @@ app.layout = html.Div([
                    
     html.Br(),
     html.Br(),
-    html.Button('Continuar', id='button', n_clicks=0,style={'marginLeft': 'auto', 'marginRight': 'auto'}),
-    html.Button('Vaciar todo', id='reset-button',n_clicks=0,style={'marginLeft': 'auto', 'marginRight': 'auto'}),
+    html.Button('Continuar', id='button', n_clicks=0,style={'marginLeft': 'auto', 'marginRight': 'auto','text-align': 'center'}),
+    html.Button('Vaciar todo', id='reset-button',n_clicks=0,style={'marginLeft': 'auto', 'marginRight': 'auto','text-align': 'center'}),
 
     html.Div(id='alert-container'),
     html.Div(id='output'),
@@ -124,7 +160,10 @@ app.layout = html.Div([
     html.H6(''' Visualizaciones:'''),
     html.Div("A continuación, tienes a tu disposición algunas visualizaciones que pueden ser de tu interés, al igual que el resultado obtenido."),
     html.Br(),
+    
     tabs,
+    
+    
     html.Br(),
     html.Br(),   
     
@@ -138,15 +177,16 @@ app.layout = html.Div([
     State('Radio-1', 'value'),
     State('Radio-2', 'value'),
     State('Radio-3', 'value'),
+    State('Radio-4', 'value'),
     State('dropdown-1', 'value'),
     State('dropdown-2', 'value'),
     State('dropdown-3', 'value'),
     State('dropdown-4', 'value'))
 
-def validate_selection (n_clicks,radio1,radio2,radio3, dropdown1, dropdown2, dropdown3, dropdown4):
+def validate_selection (n_clicks,radio1,radio2,radio3,radio4, dropdown1, dropdown2, dropdown3, dropdown4):
     
     if n_clicks > 0 != None :
-        resultado=F.estimar(radio1,radio2, radio3, dropdown1, dropdown2, dropdown3, dropdown4)
+        resultado=F.estimar(radio1,radio2, radio3,radio4, dropdown1, dropdown2, dropdown3, dropdown4)
         tabla=html.Table([
                 html.Tr([
                     html.Td(''),
@@ -214,6 +254,7 @@ def validate_selection (n_clicks,radio1,radio2,radio3, dropdown1, dropdown2, dro
     Output('Radio-1', 'value'),
     Output('Radio-2', 'value'),
     Output('Radio-3', 'value'),
+    Output('Radio-4', 'value'),
     Output('dropdown-1', 'value'),
     Output('dropdown-2', 'value'),
     Output('dropdown-3', 'value'),
