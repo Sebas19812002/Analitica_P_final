@@ -173,9 +173,9 @@ def categorizar_educacion_padre(fami_educacionpadre):
 datos_filtrados['Educacion_Padre'] = datos_filtrados['fami_educacionpadre'].apply(categorizar_educacion_padre)
 
 def categorizar_puntaje(punt_global):
-    if punt_global >= 280 :
+    if punt_global >= 300 :
         return 'Aceptado'
-    elif punt_global < 280:
+    elif punt_global < 300:
         return 'Rechazado'
     else:
         return 'Hay algo mal'

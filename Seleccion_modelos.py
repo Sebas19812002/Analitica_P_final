@@ -148,7 +148,7 @@ print("BIC Score","\n",puntajeBIC,"\n")
 #-----------------------Modelo otro ------------------#
 #-------------------------------------------------------------#
 
-print("#-----------------------Modelo otro----------------------------##")
+print("#-----------------------Modelo otro suavizado----------------------------##")
 modelo_ = BayesianNetwork([("Educacion_Madre","Personas_hogar"),
                                 ("Educacion_Padre","Personas_hogar"),
                                 ("Personas_hogar","fami_estratovivienda"),
@@ -179,7 +179,7 @@ print("BIC Score","\n",puntajeBIC,"\n")
 
 eby = BayesianEstimator(model=modelo_, data=df_ent)
 
-cpd_p1=eby.estimate_cpd(node="Puntaje_obtenido", prior_type="dirichlet", pseudo_counts=[[300]*4032, [150]*4032])
+cpd_p1=eby.estimate_cpd(node="Puntaje_obtenido", prior_type="dirichlet", pseudo_counts=[[75]*4032, [0]*4032])
 cpd_n=eby.estimate_cpd(node="cole_naturaleza", prior_type="dirichlet", pseudo_counts=[[100000]*14, [1000]*14])
 cpd_m=eby.estimate_cpd(node="Educacion_Madre", prior_type="dirichlet", pseudo_counts=[[150000], [7000],
                        [100], [100],[100], [10000],[500], [250],[2000], [1000],
@@ -198,5 +198,4 @@ print(modelo_.get_cpds("Puntaje_obtenido"))
 
 Resultados=Metricas(df_prueba, modelo_, "E")
 print("Resultados del modelo inicial","\n",Resultados,"\n")
-  
 
