@@ -50,9 +50,9 @@ modelo.check_model()
 
 inferencia = VariableElimination(modelo)
 modelo.nodes
-Ejemplo1 = inferencia.query(['Puntaje_obtenido'],evidence={"Educacion_Madre":"P", "Personas_hogar":"Alto", "fami_estratovivienda": "2" })
+Ejemplo1 = inferencia.query(['Puntaje_obtenido'],evidence={"Educacion_Madre":"P","cole_naturaleza":"No_oficial", "Personas_hogar":"Alto", "fami_estratovivienda": "2" })
 print("")
-print ("Ejemplo 1", Ejemplo1.values)
+print ("Ejemplo 1", Ejemplo1)
 
 
 

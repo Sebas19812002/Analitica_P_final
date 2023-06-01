@@ -65,28 +65,6 @@ Rechazados = df_ent['Puntaje_obtenido'].value_counts()['Rechazado']
 ###-------------- Nodos que son importantes y no deben cambiar---------------# 
 #-----nodos-------#
 edges_fijos=[("estu_genero","Puntaje_obtenido")]
-#-------------------------------------------------------------#
-#-----------------------Modelo nuestro------------------------#
-#-------------------------------------------------------------#
-
-print("#-----------------------Modelo nuestro----------------------------#")
-modelo = BIFReader("Modelo.bif").get_model()
-modelo.check_model()
-print("Nodos y edges\n",modelo.nodes(),"\n",modelo.edges(),"\n")
-
-modelo_estructura=BayesianNetwork(list(modelo.edges()))
-Resultados=Metricas(df_prueba, modelo, "B")
-print("Resultados del modelo inicial","\n",Resultados,"\n")
-
-puntajeK2 = K2Score(data=df_ent).score(modelo_estructura)
-print("K2 Score","\n",puntajeK2)
-
-puntajeBIC = BicScore(data=df_ent).score(modelo_estructura)
-print("BIC Score","\n",puntajeBIC,"\n")
-
-
-
-
 
 #-------------------------------------------------------------#
 #-----------sacar modelo por Hillclimb y score K2 ------------#
@@ -145,10 +123,10 @@ print("BIC Score","\n",puntajeBIC,"\n")
 
 
 #-------------------------------------------------------------#
-#-----------------------Modelo otro ------------------#
+#-----------------------Modelo inicial ------------------#
 #-------------------------------------------------------------#
 
-print("#-----------------------Modelo otro suavizado----------------------------##")
+print("#-----------------------Modelo inicial----------------------------##")
 modelo_ = BayesianNetwork([("Educacion_Madre","Personas_hogar"),
                                 ("Educacion_Padre","Personas_hogar"),
                                 ("Personas_hogar","fami_estratovivienda"),
@@ -176,21 +154,23 @@ print("K2 Score","\n",puntajeK2)
 puntajeBIC = BicScore(data=df_ent).score(modelo_estructura)
 print("BIC Score","\n",puntajeBIC,"\n")
 
+#-------------------------------------------------------------#
+#------------------suavizar modelo y serializarlo-------------#
+#-------------------------------------------------------------#
 
 eby = BayesianEstimator(model=modelo_, data=df_ent)
+cpd_p1=eby.estimate_cpd(node="Puntaje_obtenido", prior_type="dirichlet", pseudo_counts=[[35]*4032, [0]*4032])
+cpd_n=eby.estimate_cpd(node="cole_naturaleza", prior_type="dirichlet", pseudo_counts=[[0]*14, [1000]*14])
+cpd_m=eby.estimate_cpd(node="Educacion_Madre", prior_type="dirichlet", pseudo_counts=[[5000], [4000],
+                       [500], [100],[100], [3000],[1000], [750],[1750], [1500],
+                       [2500], [2000]])
+cpd_p=eby.estimate_cpd(node="Educacion_Padre", prior_type="dirichlet", pseudo_counts=[[5000], [4000],
+                       [500], [100],[100], [3000],[1000], [750],[1750], [1500],
+                       [2500], [2000]])
 
-cpd_p1=eby.estimate_cpd(node="Puntaje_obtenido", prior_type="dirichlet", pseudo_counts=[[75]*4032, [0]*4032])
-cpd_n=eby.estimate_cpd(node="cole_naturaleza", prior_type="dirichlet", pseudo_counts=[[100000]*14, [1000]*14])
-cpd_m=eby.estimate_cpd(node="Educacion_Madre", prior_type="dirichlet", pseudo_counts=[[150000], [7000],
-                       [100], [100],[100], [10000],[500], [250],[2000], [1000],
-                       [5000], [2500]])
-cpd_p=eby.estimate_cpd(node="Educacion_Padre", prior_type="dirichlet", pseudo_counts=[[150000], [7000],
-                       [100], [100],[100], [10000],[500], [250],[2000], [1000],
-                       [5000], [2500]])
+
 
 modelo_.add_cpds(cpd_n,cpd_m,cpd_p,cpd_p1)
-
-
 print(modelo_.get_cpds("Educacion_Madre"))
 print(modelo_.get_cpds("Educacion_Padre"))
 print(modelo_.get_cpds("cole_naturaleza"))
@@ -199,3 +179,28 @@ print(modelo_.get_cpds("Puntaje_obtenido"))
 Resultados=Metricas(df_prueba, modelo_, "E")
 print("Resultados del modelo inicial","\n",Resultados,"\n")
 
+from pgmpy.readwrite import BIFReader
+from pgmpy.readwrite import BIFWriter
+
+#writer = BIFWriter(modelo_)
+#writer.write_bif(filename='Modelo_suavizado.bif')
+
+
+#-------------------------------------------------------------#
+#-----------------------Modelo suavizado------------------------#
+#-------------------------------------------------------------#
+
+print("#-----------------------Modelo suavizado----------------------------#")
+modelo = BIFReader("Modelo_suavizado").get_model()
+modelo.check_model()
+print("Nodos y edges\n",modelo.nodes(),"\n",modelo.edges(),"\n")
+
+modelo_estructura=BayesianNetwork(list(modelo.edges()))
+Resultados=Metricas(df_prueba, modelo, "B")
+print("Resultados del modelo ","\n",Resultados,"\n")
+
+puntajeK2 = K2Score(data=df_ent).score(modelo_estructura)
+print("K2 Score","\n",puntajeK2)
+
+puntajeBIC = BicScore(data=df_ent).score(modelo_estructura)
+print("BIC Score","\n",puntajeBIC,"\n")
