@@ -12,9 +12,9 @@ cursor = conn.cursor()
 
 sql ='''CREATE TABLE tabla1(\
     cole_area_ubicacion     varchar NOT NULL,\
-    estu_genero             char NOT NULL,\
+    estu_genero             smallint NOT NULL,\
     cole_naturaleza         varchar NOT NULL,\
-    fami_estratovivienda    varchar NOT NULL,\
+    fami_estratovivienda    smallint NOT NULL,\
     Personas_hogar          varchar NOT NULL,\
     Educacion_Madre         varchar NOT NULL,\
     Educacion_Padre         varchar NOT NULL,\
@@ -29,7 +29,7 @@ sql ='''CREATE TABLE tabla1(\
 cursor.execute(sql)
   
 sql = '''copy tabla1(cole_area_ubicacion,estu_genero,cole_naturaleza,fami_estratovivienda,Personas_hogar,Educacion_Madre,Educacion_Padre,Puntaje_obtenido) 
-FROM 'C:\\Users\\Public\\Documents\\GitHub\\Analitica_P_final\\Datos_test.csv' DELIMITER ',' CSV HEADER;'''
+FROM '/home/jpc/Analitica_P_final/datos_filtrados.csv' DELIMITER ',' CSV HEADER;'''
 
 cursor.execute(sql)
   
