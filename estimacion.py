@@ -6,39 +6,39 @@ from pgmpy.readwrite import BIFReader
 from pgmpy.readwrite import BIFWriter
 import pandas as pd
 
-df= pd.read_csv("Datos_Discretizados.csv")
+df= pd.read_csv("datos_filtrados.csv")
 print(df.head(5))
+for columna in df.columns:
+    categorias = df[columna].unique()
+    print(f"Categorías de la columna '{columna}':")
+    print(categorias)
+    print()
 
 #Parametrización del modelo
-mod_fit = BayesianNetwork([("sugar","chol"),
-                                ("sugar","angina"),
-                                ("sugar","pressure"),
-                                ("angina","diagnosis"),
-                                ("diagnosis","flourosopy"),
-                                ("diagnosis","ecg"),
-                                ("diagnosis","cpt"),
-                                ("ecg","slope"),
-                                ("ecg","oldpeak"),
-                                ("sex","pressure"),
-                                ("age","pressure"),
-                                ("age","maxbpm"),
-                                ("thal","maxbpm"),
-                                ("maxbpm","diagnosis")])
+mod_fit = BayesianNetwork([("Educacion_Madre","fami_estratovivienda"),
+                                ("Educacion_Padre","fami_estratovivienda"),
+                                ("fami_estratovivienda","Personas_hogar"),
+                                ("Personas_hogar","cole_naturaleza"),
+                                ("cole_area_ubicacion","cole_naturaleza"),
+                                ("cole_naturaleza","Puntaje_obtenido"),
+                                ("estu_genero","Puntaje_obtenido")])
 
 
 #Depende del test_size, los datos retantes iran a la estimación del modelo
 
 train_data, test_data = train_test_split(df, test_size=0.2, random_state=42)
+
 #train_data.to_csv("Datos_entrenamiento",index=False )
 #test_data.to_csv("Datos_test", index=False)
+
 mod_fit.fit(data=train_data , estimator = BayesianEstimator)
 
 mod_fit.check_model()
 
 
 #Serializar el modelo
-#writer = BIFWriter(mod_fit)
-#writer.write_bif(filename='Modelo.bif')
+writer = BIFWriter(mod_fit)
+writer.write_bif(filename='Modelo.bif')
 modelo = BIFReader("Modelo.bif").get_model()
 
 modelo.check_model()

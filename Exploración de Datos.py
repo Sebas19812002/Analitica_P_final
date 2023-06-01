@@ -1,8 +1,7 @@
 
-import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression
+
+
 datos = pd.read_csv("Datos_sin_filtro.csv")
 datos.head()
 print(datos)
@@ -77,6 +76,23 @@ def categorizar_personas_hogar(fami_personashogar):
         return 'Medio'
     else:
         return 'Alto'
+def categorizar_estrato(fami_estratovivienda):
+    if fami_estratovivienda == 'Estrato 1':
+        return 1
+    elif fami_estratovivienda == 'Estrato 2':
+        return 2
+    elif fami_estratovivienda == 'Estrato 3':
+        return 3
+    elif fami_estratovivienda == 'Estrato 4':
+        return 4
+    elif fami_estratovivienda == 'Estrato 5':
+        return 5
+    elif fami_estratovivienda == 'Estrato 6':
+        return 6
+    else:
+        return 0
+        
+datos_filtrados['fami_estratovivienda'] = datos_filtrados['fami_estratovivienda'].apply(categorizar_estrato)
 
 datos_filtrados['Personas_hogar'] = datos_filtrados['fami_personashogar'].apply(categorizar_personas_hogar)
 
@@ -105,7 +121,7 @@ def categorizar_educacion_madre(fami_educacionmadre):
     elif fami_educacionmadre == 'Educación profesional incompleta':
         return 'EPI'
     elif fami_educacionmadre == 'No Aplica':
-        return 'NA'
+        return 'NAP'
 
     else:
         return 'Hay algo mal'
@@ -130,7 +146,7 @@ def categorizar_educacion_padre(fami_educacionpadre):
     elif fami_educacionpadre == 'Educación profesional completa':
         return 'EPC'
     elif fami_educacionpadre == 'No Aplica':
-        return 'NA'
+        return 'NAP'
     elif fami_educacionpadre == 'Secundaria (Bachillerato) incompleta':
         return 'SBI'
     elif fami_educacionpadre == 'Educación profesional incompleta':
@@ -164,13 +180,12 @@ for columna in datos_filtrados.columns:
     print(f"Categorías de la columna '{columna}':")
     print(categorias)
     print()
+print(datos_filtrados.dtypes)
+
 
 # Guardar el dataframe modificado en un nuevo archivo de Excel
 ruta_nuevo_archivo = 'C:/Users/User/Documents/Septimo Semestre/ACTO/Proyecto3/Analitica_P_final/datos_filtrados.csv'
 datos_filtrados.to_csv(ruta_nuevo_archivo, index=False)
 
 
-
-"""
-datos_filtrados.to_csv("Datos_Finales",index=False )
-"""
+#datos_filtrados.to_csv("datos_filtrados", index=False)
