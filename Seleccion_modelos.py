@@ -30,37 +30,41 @@ def Metricas (test_data, modelo, tipo):
                 elif tipo =="E":
                     Evidencia[real.index[i]]=real[i]
         
-        resultado = inferencia.query(['diagnosis'], evidence=Evidencia).values
+        resultado = inferencia.query(['Puntaje_obtenido'], evidence=Evidencia).values
         
-        Prediccion=1
-        #Prob de no tener = 0
+        Prediccion="Rechazado"
+    
         if resultado[0]>=0.5 :
-            Prediccion=0
-        if Prediccion == real[-1] and Prediccion==1  :
-            #Tiene la enfermedad el modelo acerto
+            Prediccion="Aceptado"
+        if Prediccion == real[-1] and Prediccion=="Aceptado"  :
+            #Aceptado y  el modelo acerto
             vp+=1
-        elif Prediccion == real[-1] and Prediccion==0 :
-            #No tiene la enfermedad y el modelo acerto   
+        elif Prediccion == real[-1] and Prediccion=="Rechazado" :
+            #No aceptado y el modelo acerto   
             vn+=1
-        elif Prediccion != real[-1] and Prediccion==0 and real[-1]==1 :
-            #Tiene la enfermedad y el modelo no acerto 
+        elif Prediccion != real[-1] and Prediccion=="Rechazado" and real[-1]=="Aceptado" :
+            #Aceptado y el modelo no acerto 
             fn+=1
         else:  
-            #No tiene la enfermedad pero el modelo dio positivo
+            #No aceptado pero el modelo dio positivo
             fp+=1
     tabla.loc[0] = [vp,vn, fp, fn]     
     return(tabla)
 
 df_ent=pd.read_csv("Datos_entrenamiento.csv")
-df_prueba= pd.read_csv("Datos_test.csv")
+df_prueba= pd.read_csv("Datos_test.csv")   
+
+Aceptados = df_prueba['Puntaje_obtenido'].value_counts()['Aceptado']
+Rechazados = df_prueba['Puntaje_obtenido'].value_counts()['Rechazado']
+
+Aceptados = df_ent['Puntaje_obtenido'].value_counts()['Aceptado']
+Rechazados = df_ent['Puntaje_obtenido'].value_counts()['Rechazado']
+
+
 
 ###-------------- Nodos que son importantes y no deben cambiar---------------# 
-#-----Padres---------#
-padres={"sex":0, "age":0}
 #-----nodos-------#
-edges_fijos=[("diagnosis","ecg"),("age","pressure"),("sex","pressure"),("sugar","chol")]
-black_list =[("chol","sex"),("maxbpm","age"),("diagnosis","sex"),("diagnosis","age"), ('thal', 'sex')]
-
+edges_fijos=[("estu_genero","Puntaje_obtenido")]
 #-------------------------------------------------------------#
 #-----------------------Modelo nuestro------------------------#
 #-------------------------------------------------------------#
@@ -82,29 +86,6 @@ print("BIC Score","\n",puntajeBIC,"\n")
 
 
 
-#-------------------------------------------------------------#
-#--------------Modelo estimado por PC sin nada nuevo----------#
-#-------------------------------------------------------------#
-
-print("#--------------Modelo estimado por PC sin nada nuevo--------------##")
-est = PC(data=df_ent)
-modelo_PC = est.estimate(variant="stable", max_cond_vars=5)
-modelo_PC = BayesianNetwork(modelo_PC)
-modelo_PC.fit(data=df_ent, estimator = BayesianEstimator)
-modelo_PC.check_model() 
-print("Nodos y edges\n",modelo_PC.nodes(),"\n",modelo_PC.edges(),"\n")
-
-modelo_estructura=BayesianNetwork(list(modelo_PC.edges()))
-Resultados=Metricas(df_prueba, modelo_PC, "E")
-print("Resultados del modelo inicial","\n",Resultados,"\n")
-
-puntajeK2 = K2Score(data=df_ent).score(modelo_estructura)
-print("K2 Score","\n",puntajeK2)
-
-puntajeBIC = BicScore(data=df_ent).score(modelo_estructura)
-print("BIC Score","\n",puntajeBIC,"\n")
-
-
 
 
 #-------------------------------------------------------------#
@@ -116,9 +97,9 @@ scoring_method = K2Score(data=df_ent)  #Que tanto una variable es influenciada p
 esth = HillClimbSearch(data=df_ent)
 
 modelo_k2 = esth.estimate(fixed_edges=edges_fijos, scoring_method=scoring_method,
-                          max_indegree=5, black_list=black_list) 
-modelo_k2=esth.estimate()
-#max indegree es el numero de padres maximosn max_inter es el numero de pasos a iterar el Hillclimb
+                          max_indegree=2) 
+
+
 modelo_k2 = BayesianNetwork(modelo_k2)
 modelo_k2.fit(data=df_ent, estimator = BayesianEstimator)
 modelo_k2.check_model()
@@ -145,7 +126,7 @@ print("#----------------Modelo Hillclimb con BIC score------------------#")
 scoring_method = BicScore(data=df_ent)  #Que tanto una variable es influenciada por posibles padres
 esth = HillClimbSearch(data=df_ent)
 modelo_BIC = esth.estimate(fixed_edges=edges_fijos,
-                           scoring_method=scoring_method, max_indegree=5,black_list=black_list) #max indegree es el numero de padres maximosn max_inter es el numero de pasos a iterar el Hillclimb
+                           scoring_method=scoring_method, max_indegree=2) 
 modelo_BIC = BayesianNetwork(modelo_BIC)
 modelo_BIC.fit(data=df_ent, estimator = BayesianEstimator)
 modelo_BIC.check_model()
@@ -163,33 +144,29 @@ puntajeBIC = BicScore(data=df_ent).score(modelo_estructura)
 print("BIC Score","\n",puntajeBIC,"\n")
 
 
-
-
 #-------------------------------------------------------------#
-#-----------------------Modelo de otro grupo------------------#
+#-----------------------Modelo otro ------------------#
 #-------------------------------------------------------------#
 
-print("#-----------------------Modelo de otro grupo----------------------------##")
-modelo_ = BayesianNetwork([("sex", "chol"),
-                           ("age", "chol"),
-                           ("age", "sugar"),
-                           ("thal", "pressure"),
-                           ("chol", "diagnosis"),
-                           ("sugar", "pressure"),
-                           ("pressure", "diagnosis"),
-                           ("diagnosis", "flourosopy"),
-                           ("diagnosis", "maxbpm"),
-                           ("diagnosis", "angina"),
-                           ("diagnosis", "ecg"),
-                           ("angina", "cpt"),
-                           ("cpt", "oldpeak"),
-                           ( "ecg","oldpeak"),
-                           ("ecg","slope")])
+print("#-----------------------Modelo otro suavizado----------------------------##")
+modelo_ = BayesianNetwork([("Educacion_Madre","Personas_hogar"),
+                                ("Educacion_Padre","Personas_hogar"),
+                                ("Personas_hogar","fami_estratovivienda"),
+                                ("fami_estratovivienda","cole_naturaleza"),
+                                ("cole_area_ubicacion","cole_naturaleza"),
+                                ("cole_naturaleza","Puntaje_obtenido"),
+                                ("estu_genero","Puntaje_obtenido"),
+                                ("Educacion_Madre","Puntaje_obtenido"),
+                                ("Educacion_Padre","Puntaje_obtenido"),
+                                ("fami_estratovivienda","Puntaje_obtenido")
+                                ])
 modelo_.fit(data=df_ent, estimator = BayesianEstimator)
+
 modelo_.check_model()
+
 print("Nodos y edges\n",modelo_.nodes(),"\n",modelo_.edges(),"\n")
 
-modelo_estructura=BayesianNetwork(list(modelo.edges()))
+modelo_estructura=BayesianNetwork(list(modelo_.edges()))
 Resultados=Metricas(df_prueba, modelo_, "E")
 print("Resultados del modelo inicial","\n",Resultados,"\n")
 
@@ -198,4 +175,27 @@ print("K2 Score","\n",puntajeK2)
 
 puntajeBIC = BicScore(data=df_ent).score(modelo_estructura)
 print("BIC Score","\n",puntajeBIC,"\n")
+
+
+eby = BayesianEstimator(model=modelo_, data=df_ent)
+
+cpd_p1=eby.estimate_cpd(node="Puntaje_obtenido", prior_type="dirichlet", pseudo_counts=[[75]*4032, [0]*4032])
+cpd_n=eby.estimate_cpd(node="cole_naturaleza", prior_type="dirichlet", pseudo_counts=[[100000]*14, [1000]*14])
+cpd_m=eby.estimate_cpd(node="Educacion_Madre", prior_type="dirichlet", pseudo_counts=[[150000], [7000],
+                       [100], [100],[100], [10000],[500], [250],[2000], [1000],
+                       [5000], [2500]])
+cpd_p=eby.estimate_cpd(node="Educacion_Padre", prior_type="dirichlet", pseudo_counts=[[150000], [7000],
+                       [100], [100],[100], [10000],[500], [250],[2000], [1000],
+                       [5000], [2500]])
+
+modelo_.add_cpds(cpd_n,cpd_m,cpd_p,cpd_p1)
+
+
+print(modelo_.get_cpds("Educacion_Madre"))
+print(modelo_.get_cpds("Educacion_Padre"))
+print(modelo_.get_cpds("cole_naturaleza"))
+print(modelo_.get_cpds("Puntaje_obtenido"))
+
+Resultados=Metricas(df_prueba, modelo_, "E")
+print("Resultados del modelo inicial","\n",Resultados,"\n")
 

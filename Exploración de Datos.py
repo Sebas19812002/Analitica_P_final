@@ -69,6 +69,13 @@ for columna in datos_filtrados.columns:
 datos_filtrados = datos_filtrados.dropna()
 
 # Datos categorizados 
+def categorizar_genero(estu_genero):
+    if estu_genero == 'F' :
+        return 1
+    else:
+        return 0
+datos_filtrados['estu_genero'] = datos_filtrados['estu_genero'].apply(categorizar_genero) 
+    
 def categorizar_personas_hogar(fami_personashogar):
     if fami_personashogar == '1 a 2' or fami_personashogar == '3 a 4':
         return 'Poco'
@@ -91,6 +98,12 @@ def categorizar_estrato(fami_estratovivienda):
         return 6
     else:
         return 0
+def categorizar_cole(cole_naturaleza):
+    if cole_naturaleza == 'OFICIAL':
+        return 1
+    else:
+        return 0
+datos_filtrados['cole_naturaleza'] = datos_filtrados['cole_naturaleza'].apply(categorizar_cole)
         
 datos_filtrados['fami_estratovivienda'] = datos_filtrados['fami_estratovivienda'].apply(categorizar_estrato)
 
@@ -160,9 +173,9 @@ def categorizar_educacion_padre(fami_educacionpadre):
 datos_filtrados['Educacion_Padre'] = datos_filtrados['fami_educacionpadre'].apply(categorizar_educacion_padre)
 
 def categorizar_puntaje(punt_global):
-    if punt_global >= 320 :
+    if punt_global >= 300 :
         return 'Aceptado'
-    elif punt_global < 320:
+    elif punt_global < 300:
         return 'Rechazado'
     else:
         return 'Hay algo mal'
@@ -174,6 +187,10 @@ datos_filtrados['Puntaje_obtenido'] = datos_filtrados['punt_global'].apply(categ
 columnas_a_eliminar = ['fami_personashogar','fami_educacionmadre','fami_educacionpadre','punt_global']
 datos_filtrados = datos_filtrados.drop(columnas_a_eliminar, axis=1)
 
+
+
+
+
 for columna in datos_filtrados.columns:
     categorias = datos_filtrados[columna].unique()
 
@@ -182,10 +199,14 @@ for columna in datos_filtrados.columns:
     print()
 print(datos_filtrados.dtypes)
 
+Aceptados = datos_filtrados['Puntaje_obtenido'].value_counts()['Aceptado']
+Rechazados = datos_filtrados['Puntaje_obtenido'].value_counts()['Rechazado']
 
-# Guardar el dataframe modificado en un nuevo archivo de Excel
-ruta_nuevo_archivo = 'C:/Users/User/Documents/Septimo Semestre/ACTO/Proyecto3/Analitica_P_final/datos_filtrados.csv'
-datos_filtrados.to_csv(ruta_nuevo_archivo, index=False)
+#Equilibrar muestra
+condicion = datos_filtrados['Puntaje_obtenido'] == 'Rechazado'
+indices_a_eliminar = datos_filtrados[condicion].sample(n=60000).index
+df_sin_filas = datos_filtrados.drop(indices_a_eliminar)
 
-
+Aceptados = df_sin_filas['Puntaje_obtenido'].value_counts()['Aceptado']
+Rechazados = df_sin_filas['Puntaje_obtenido'].value_counts()['Rechazado']
 #datos_filtrados.to_csv("datos_filtrados", index=False)
