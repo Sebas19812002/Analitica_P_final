@@ -26,7 +26,6 @@ server = app.server
 datos = pd.read_csv("datos_filtrados.csv")
 datos.head()
 #------------------Graficas--------------------------------#
-#F.crear_visualizaciones(datos)
 
 #################################################################################################
 #Imagenes de exploracion
