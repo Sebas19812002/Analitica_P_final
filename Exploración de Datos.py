@@ -188,4 +188,4 @@ print(datos_filtrados.dtypes)
 
 
 
-datos_filtrados.to_csv("datos_filtrados", index=False)
+#datos_filtrados.to_csv("datos_filtrados", index=False)

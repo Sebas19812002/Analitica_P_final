@@ -28,8 +28,8 @@ mod_fit = BayesianNetwork([("Educacion_Madre","fami_estratovivienda"),
 
 train_data, test_data = train_test_split(df, test_size=0.2, random_state=42)
 
-#train_data.to_csv("Datos_entrenamiento",index=False )
-#test_data.to_csv("Datos_test", index=False)
+train_data.to_csv("Datos_entrenamiento",index=False )
+test_data.to_csv("Datos_test", index=False)
 
 mod_fit.fit(data=train_data , estimator = BayesianEstimator)
 
