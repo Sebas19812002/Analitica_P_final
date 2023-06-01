@@ -80,6 +80,7 @@ for columna in datos_filtrados.columns:
     print(categorias)
     print()
 
+datos_filtrados = datos_filtrados.dropna()
 
 # Datos categorizados 
 def categorizar_personas_hogar(fami_personashogar):
@@ -128,43 +129,46 @@ def categorizar_educacion_padre(fami_educacionpadre):
         return 'SBC'
     elif fami_educacionpadre == 'Primaria incompleta':
         return 'PI'
-    elif fami_educacionpadre == 'Ninguno':
-        return 'N'
     elif fami_educacionpadre == 'Postgrado':
         return 'P'
     elif fami_educacionpadre == 'No sabe':
         return 'NS'
-    elif fami_educacionpadre == 'Primaria completa':
-        return 'PC'
+    elif fami_educacionpadre == 'Ninguno':
+        return 'N'
     elif fami_educacionpadre == 'Técnica o tecnológica completa':
         return 'TC'
-    elif fami_educacionpadre == 'Técnica o tecnológica incompleta':
-        return 'TI'
-    elif fami_educacionpadre == 'Secundaria (Bachillerato) incompleta':
-        return 'SBI'
+    elif fami_educacionpadre == 'Primaria completa':
+        return 'PC'
     elif fami_educacionpadre == 'Educación profesional completa':
         return 'EPC'
-    elif fami_educacionpadre == 'Educación profesional incompleta':
-        return 'EPI'
     elif fami_educacionpadre == 'No Aplica':
         return 'NA'
-
+    elif fami_educacionpadre == 'Secundaria (Bachillerato) incompleta':
+        return 'SBI'
+    elif fami_educacionpadre == 'Educación profesional incompleta':
+        return 'EPI'
+    elif fami_educacionpadre == 'Técnica o tecnológica incompleta':
+        return 'TI'
+       
     else:
         return 'Hay algo mal'
 
 datos_filtrados['Educacion_Padre'] = datos_filtrados['fami_educacionpadre'].apply(categorizar_educacion_padre)
 
 
+### Eliminar las columnas sin categorizar 
+columnas_a_eliminar = ['fami_personashogar','fami_educacionmadre','fami_educacionpadre']
+datos_filtrados = datos_filtrados.drop(columnas_a_eliminar, axis=1)
 
-#Visualizaciones de los datos:
-"1. Exploración de los datos"
-#Graficos de pie
-#Género
 
-fig, ax = plt.subplots()
-etiquetas = ["Mujeres","Hombres"]
-valores = [datos.loc[(datos['estu_genero'] == "F")].shape[0],(datos["estu_genero"]=="M").sum()]
-colores=["#D7F47C", "#81E2DF"]
-ax.pie(valores, labels = etiquetas ,colors=colores, autopct='%1.1f%%')
-plt.title("Sexo de la muestra", fontsize = 18)
-plt.show() 
+
+
+
+for columna in datos_filtrados.columns:
+    categorias = datos_filtrados[columna].unique()
+
+    print(f"Categorías de la columna '{columna}':")
+    print(categorias)
+    print()
+
+
