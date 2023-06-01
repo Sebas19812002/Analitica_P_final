@@ -300,15 +300,20 @@ tab2=dcc.Tab(label='Información del padre',children=[
     ) 
 ])
 
+fig, ax = plt.subplots()
+etiquetas = ["Joven Adulto","Adultos","Adultos Mayores","Tercera Edad"]
+valores = [(datos["age"]==1).sum(),(datos["age"]==2).sum(),(datos["age"]==3).sum(),(datos["age"]==4).sum()]
+colores=["#CFEFFC", "#8AD6F4","#3EAEF4","#81E2DF"]
+ax.pie(valores, labels = etiquetas ,colors=colores, autopct='%1.1f%%', textprops = {'fontsize': 14})
+plt.title("Edad de la muestra", fontsize = 18)
+fig.subplots_adjust(top=0.9,bottom=0.01,left=0.008)
+plt.savefig('Exploracion2.png')
+
+
 tab3=dcc.Tab(label='Información de la muestra',children=[
     html.Div('En esta pestaña se encuentran gráficas asociadas a la muestra en general.'),
-    html.Br(),
-    html.H6('Educación del Padre', style={'text-align': 'center'}),
-    html.Br(),
-    dcc.Graph(id='line-chart-padre', figure=fig_h,
-        config={'displayModeBar': False},  # Oculta la barra de herramientas de la gráfica
-        style={'backgroundColor': 'rgba(0,0,0,0)'}  # Establece el color de fondo transparente
-    ) 
+    html.Br()
+
 ])
 
 
