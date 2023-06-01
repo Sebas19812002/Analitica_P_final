@@ -6,8 +6,13 @@ from pgmpy.readwrite import BIFReader
 from pgmpy.readwrite import BIFWriter
 import pandas as pd
 
-df= pd.read_csv("Datos_Discretizados.csv")
+df= pd.read_csv("datos_filtrados.csv")
 print(df.head(5))
+for columna in df.columns:
+    categorias = df[columna].unique()
+    print(f"Categorías de la columna '{columna}':")
+    print(categorias)
+    print()
 
 #Parametrización del modelo
 mod_fit = BayesianNetwork([("sugar","chol"),
@@ -29,8 +34,10 @@ mod_fit = BayesianNetwork([("sugar","chol"),
 #Depende del test_size, los datos retantes iran a la estimación del modelo
 
 train_data, test_data = train_test_split(df, test_size=0.2, random_state=42)
-#train_data.to_csv("Datos_entrenamiento",index=False )
+
+train_data.to_csv("Datos_entrenamiento",index=False )
 #test_data.to_csv("Datos_test", index=False)
+
 mod_fit.fit(data=train_data , estimator = BayesianEstimator)
 
 mod_fit.check_model()

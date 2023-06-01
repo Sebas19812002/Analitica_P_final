@@ -1,8 +1,7 @@
 
-import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression
+
+
 datos = pd.read_csv("Datos_sin_filtro.csv")
 datos.head()
 print(datos)
@@ -105,7 +104,7 @@ def categorizar_educacion_madre(fami_educacionmadre):
     elif fami_educacionmadre == 'Educación profesional incompleta':
         return 'EPI'
     elif fami_educacionmadre == 'No Aplica':
-        return 'NA'
+        return 'NAP'
 
     else:
         return 'Hay algo mal'
@@ -130,7 +129,7 @@ def categorizar_educacion_padre(fami_educacionpadre):
     elif fami_educacionpadre == 'Educación profesional completa':
         return 'EPC'
     elif fami_educacionpadre == 'No Aplica':
-        return 'NA'
+        return 'NAP'
     elif fami_educacionpadre == 'Secundaria (Bachillerato) incompleta':
         return 'SBI'
     elif fami_educacionpadre == 'Educación profesional incompleta':
