@@ -80,7 +80,7 @@ app.layout = html.Div([
     
     html.Br(),
     
-    html.Div(["Para iniciar, porfavor seleccione que tipo de gráfica prefiere: ",
+    html.Div(["Para iniciar, porfavor seleccione que tipo de modelo prefiere: ",
                 dcc.RadioItems(
                 id='Radio-4',
                 options=[{'label': i, 'value': i} for i in [ 'Modelo Normal','Modelo Suavizado']],
@@ -101,15 +101,14 @@ app.layout = html.Div([
                 options=[{'label': i, 'value': i} for i in ["Urbano","Rural"]],value="Seleccione"),
                 html.Br()],
                 style={'display': 'inline-block', 'margin-right': '10px','width': '22%', 'float': 'left', 'display': 'inline-block'}),
-   
+    html.Br(),
+    
     html.Div(["Categoría del Colegio: ",
               dcc.RadioItems(
                 id='Radio-3',
                 options=[{'label': i, 'value': i} for i in ["Oficial","No Oficial"]],value="Seleccione"),
                 html.Br()],
                 style={'margin-right': '10px','width': '22%', 'float': 'left'}),
-    
-    html.Br(),
     
     html.Div(["Estrato de residencia del estudiante: ",
               dcc.Dropdown(
@@ -123,8 +122,8 @@ app.layout = html.Div([
                 id='dropdown-2',
                 options=[{'label': i, 'value': i} for i in ["1 a 4","5 a 6","Más de 7"]],value="Seleccione"),
                 html.Br()],
-                style={'display': 'inline-block', 'margin-right': '10px','width': '22%', 'float': 'left', 'display': 'inline-block'}),
-    
+                style={'display': 'inline-block', 'margin-right': '10px','width': '22%', 'float': 'left', 'display': 'inline-block'}), 
+    html.Br(),
     html.Div(["Educación de la madre: ",
               dcc.Dropdown(
                 id='dropdown-3',
@@ -146,7 +145,7 @@ app.layout = html.Div([
                                                             'Postgrado','No sabe','Ninguno' ,'No Aplica']],value="Seleccione"),
                 html.Br()],
                 style={'display': 'inline-block', 'margin-right': '10px','width': '22%', 'float': 'left', 'display': 'inline-block'}),
-                   
+    html.Br(),      
     html.Br(),
     html.Br(),
     html.Button('Continuar', id='button', n_clicks=0,style={'marginLeft': 'auto', 'marginRight': 'auto','text-align': 'center'}),
@@ -202,6 +201,10 @@ def validate_selection (n_clicks,radio1,radio2,radio3,radio4, dropdown1, dropdow
                 style={'marginLeft': 'auto', 'marginRight': 'auto'})
         tabla1=html.Table([
                 html.Tr([
+                    html.Td('Modelo:  '),
+                    html.Td(radio4)
+                ]),
+                html.Tr([
                     html.Td('Genero del estudiante: '),
                     html.Td(radio1)
                 ]),
@@ -254,7 +257,6 @@ def validate_selection (n_clicks,radio1,radio2,radio3,radio4, dropdown1, dropdow
     Output('Radio-1', 'value'),
     Output('Radio-2', 'value'),
     Output('Radio-3', 'value'),
-    Output('Radio-4', 'value'),
     Output('dropdown-1', 'value'),
     Output('dropdown-2', 'value'),
     Output('dropdown-3', 'value'),

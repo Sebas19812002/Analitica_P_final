@@ -485,7 +485,7 @@ def crear_visualizaciones(datos):
     ############
     return None
 
-def estimar(radio1,radio2,radio3, dropdown1, dropdown2, dropdown3, dropdown4):
+def estimar(radio1,radio2,radio3,radio4, dropdown1, dropdown2, dropdown3, dropdown4):
     from pgmpy.inference import VariableElimination
     from pgmpy.readwrite import BIFReader
     Sex=9
@@ -585,8 +585,11 @@ def estimar(radio1,radio2,radio3, dropdown1, dropdown2, dropdown3, dropdown4):
     elif dropdown4 == 'No Aplica':
         Edu_padre = 'NAP'
         
-      
-    modelo = BIFReader("Modelo_suavizado.bif").get_model()
+    if radio4=="Modelo Normal":
+        modelo = BIFReader("Modelo.bif").get_model()
+    else:   
+        modelo = BIFReader("Modelo_suavizado.bif").get_model()
+    
     inferencia = VariableElimination(modelo)
     evidencia = {}
     
