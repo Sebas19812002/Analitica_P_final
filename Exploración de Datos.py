@@ -76,6 +76,23 @@ def categorizar_personas_hogar(fami_personashogar):
         return 'Medio'
     else:
         return 'Alto'
+def categorizar_estrato(fami_estratovivienda):
+    if fami_estratovivienda == 'Estrato 1':
+        return 1
+    elif fami_estratovivienda == 'Estrato 2':
+        return 2
+    elif fami_estratovivienda == 'Estrato 3':
+        return 3
+    elif fami_estratovivienda == 'Estrato 4':
+        return 4
+    elif fami_estratovivienda == 'Estrato 5':
+        return 5
+    elif fami_estratovivienda == 'Estrato 6':
+        return 6
+    else:
+        return 0
+        
+datos_filtrados['fami_estratovivienda'] = datos_filtrados['fami_estratovivienda'].apply(categorizar_estrato)
 
 datos_filtrados['Personas_hogar'] = datos_filtrados['fami_personashogar'].apply(categorizar_personas_hogar)
 
@@ -167,5 +184,8 @@ for columna in datos_filtrados.columns:
     print(f"Categorías de la columna '{columna}':")
     print(categorias)
     print()
+print(datos_filtrados.dtypes)
 
-#datos_filtrados.to_csv("datos_filtrados", index=False)
+
+
+datos_filtrados.to_csv("datos_filtrados", index=False)
