@@ -59,56 +59,57 @@ def estimar(radio1,radio2,radio3, dropdown1, dropdown2, dropdown3, dropdown4):
        
         
     Edu_madre = 9
-    if dropdown3 == "EPC":
+    if dropdown3 == "Primaria incompleta":
         Edu_madre = "1"
-    elif dropdown3 == "PC":
+    elif dropdown3 == "Primaria completa":
         Edu_madre= "2"
-    elif dropdown3 == "EPI":
+    elif dropdown3 == "Secundaria (Bachillerato) incompleta":
         Edu_madre= "3"
-    elif dropdown3 == "SBC":
+    elif dropdown3 == "Secundaria (Bachillerato) completa":
         Edu_madre= "4"
-    elif dropdown3 == "SBI":
+    elif dropdown3 == "Técnica o tecnológica incompleta":
         Edu_madre= "5"
-    elif dropdown3 == "NS":
+    elif dropdown3 == "Técnica o tecnológica completa":
         Edu_madre= "6"
-    elif dropdown3 == "TI":
+    elif dropdown3 == "Educación profesional incompleta":
         Edu_madre= "7"
-    elif dropdown3 == "TC":
+    elif dropdown3 == "Educación profesional completa":
         Edu_madre= "8"
-    elif dropdown3 == "N":
+    elif dropdown3 == "Postgrado":
         Edu_madre= "9"
-    elif dropdown3 == "PI":
+    elif dropdown3 == "No sabe":
         Edu_madre= "10"
-    elif dropdown3 == "P":
+    elif dropdown3 == "Ninguno":
         Edu_madre= "11"
-    elif dropdown3 == "NA":
+    elif dropdown3 == "No Aplica":
         Edu_madre= "0 "
-        
-        
+
+
+
     Edu_padre = 9
-    if dropdown4 == "EPC":
+    if dropdown4 == "Primaria incompleta":
         Edu_padre = "1"
-    elif dropdown4 == "PC":
+    elif dropdown4 == "Primaria completa":
         Edu_padre= "2"
-    elif dropdown4 == "EPI":
+    elif dropdown4 == "Secundaria (Bachillerato) incompleta":
         Edu_padre= "3"
-    elif dropdown4 == "SBC":
+    elif dropdown4 == "Secundaria (Bachillerato) completa":
         Edu_padre= "4"
-    elif dropdown4 == "SBI":
+    elif dropdown4 == "Técnica o tecnológica incompleta":
         Edu_padre= "5"
-    elif dropdown4 == "NS":
+    elif dropdown4 == "Técnica o tecnológica completa":
         Edu_padre= "6"
-    elif dropdown4 == "TI":
+    elif dropdown4 == "Educación profesional incompleta":
         Edu_padre= "7"
-    elif dropdown4 == "TC":
+    elif dropdown4 == "Educación profesional completa":
         Edu_padre= "8"
-    elif dropdown4 == "N":
+    elif dropdown4 == "Postgrado":
         Edu_padre= "9"
-    elif dropdown4 == "PI":
+    elif dropdown4 == "No sabe":
         Edu_padre= "10"
-    elif dropdown4 == "P":
+    elif dropdown4 == "Ninguno":
         Edu_padre= "11"
-    elif dropdown4 == "NA":
+    elif dropdown4 == "No Aplica":
         Edu_padre= "0 "   
         
       
@@ -185,14 +186,14 @@ app.layout = html.Div([
                 style={'display': 'inline-block','width': '22%'}),
      
      html.Div(["Área de ubicación: ",
-              dcc.Dropdown(
+              dcc.RadioItems(
                 id='Radio-2',
                 options=[{'label': i, 'value': i} for i in ["Urbano","Rural"]],value="Seleccione"),
                 html.Br()],
                 style={'display': 'inline-block', 'margin-right': '10px','width': '22%', 'float': 'left', 'display': 'inline-block'}),
    
     html.Div(["Categoría del Colegio: ",
-              dcc.Dropdown(
+              dcc.RadioItems(
                 id='Radio-3',
                 options=[{'label': i, 'value': i} for i in ["Oficial","No Oficial"]],value="Seleccione"),
                 html.Br()],
@@ -205,29 +206,34 @@ app.layout = html.Div([
                 html.Br()],
                 style={'display': 'inline-block', 'margin-right': '10px','width': '22%', 'float': 'left', 'display': 'inline-block'}),
    
-    html.Div(["Área de ubicación: ",
+    html.Div(["Número de personas en la vivienda: ",
               dcc.Dropdown(
                 id='dropdown-2',
-                options=[{'label': i, 'value': i} for i in ["Urbano","Rural"]],value="Seleccione"),
+                options=[{'label': i, 'value': i} for i in ["1 a 4","5 a 6","Más de 7"]],value="Seleccione"),
                 html.Br()],
-                style={'display': 'inline-block', 'margin-right': '10px','width': '22%', 'float': 'left', 'display': 'inline-block'}),
-   
+                style={'display': 'inline-block', 'margin-right': '10px','width': '22%', 'float': 'left', 'display': 'inline-block'}),  
     
-    
-    
-    
-    
-    
-    
-    
-    
-    html.Div(["Nacionalidad del estudiante: ",
+    html.Div(["Educación de la madre: ",
               dcc.Dropdown(
-                id='dropdown-2',
-                options=[{'label': i, 'value': i} for i in ["FALTA"]],value="Seleccione"),
+                id='dropdown-3',
+                options=[{'label': i, 'value': i} for i in ['Primaria incompleta','Primaria completa',
+                                                            'Secundaria (Bachillerato) incompleta','Secundaria (Bachillerato) completa',
+                                                            'Técnica o tecnológica incompleta','Técnica o tecnológica completa',
+                                                            'Educación profesional incompleta' ,'Educación profesional completa',
+                                                            'Postgrado','No sabe','Ninguno' ,'No Aplica']],value="Seleccione"),
                 html.Br()],
                 style={'display': 'inline-block', 'margin-right': '10px','width': '22%', 'float': 'left', 'display': 'inline-block'}),
-  
+    html.Div(["Educación del padre: ",
+              dcc.Dropdown(
+                id='dropdown-4',
+                options=[{'label': i, 'value': i} for i in ['Primaria incompleta','Primaria completa',
+                                                            'Secundaria (Bachillerato) incompleta','Secundaria (Bachillerato) completa',
+                                                            'Técnica o tecnológica incompleta','Técnica o tecnológica completa',
+                                                            'Educación profesional incompleta' ,'Educación profesional completa',
+                                                            'Postgrado','No sabe','Ninguno' ,'No Aplica']],value="Seleccione"),
+                html.Br()],
+                style={'display': 'inline-block', 'margin-right': '10px','width': '22%', 'float': 'left', 'display': 'inline-block'}),
+                   
     html.Br(),
     html.Button('Continuar', id='button', n_clicks=0),
     html.Div(id='alert-container'),
@@ -249,22 +255,16 @@ app.layout = html.Div([
     Output('output', 'children'),
     Input('button', 'n_clicks'),
     State('Radio-1', 'value'),
+    State('Radio-2', 'value'),
+    State('Radio-3', 'value'),
     State('dropdown-1', 'value'),
-    State('dropdown-2', 'value')
-    )
+    State('dropdown-2', 'value'),
+    State('dropdown-3', 'value'),
+    State('dropdown-4', 'value'))
     
-def validate_selection (n_clicks,radio1,dropdown1,dropdown2):
+def validate_selection (n_clicks,radio1,radio2,radio3, dropdown1, dropdown2, dropdown3, dropdown4):
     
-    if n_clicks > 0 and radio1 is None or n_clicks > 0 and dropdown1 == "Seleccione" or n_clicks > 0 and dropdown1 is None:
-        if radio1 is None:
-            return html.H5(html.Div([html.Div('Por favor, asegurate de haber ingresado el genero del paciente',style={'color': 'red'})
-                                    ]))
-        elif dropdown1 == "Seleccione" or dropdown1 is None:
-            return html.H5(html.Div([html.Div('Por favor, asegurate de haber ingresado la edad del paciente', style={'color': 'red'})
-                                     ]))
-
-    
-    elif n_clicks > 0 and radio1 is not None  and dropdown1 != "Seleccione" and dropdown2 != "Seleccione"  :   
+    if n_clicks > 0 is not None :   
         tabla=html.Table([
                 html.Tr([
                     html.Td(''),
