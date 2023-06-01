@@ -100,9 +100,9 @@ def categorizar_estrato(fami_estratovivienda):
         return 0
 def categorizar_cole(cole_naturaleza):
     if cole_naturaleza == 'OFICIAL':
-        return 1
+        return "Oficial"
     else:
-        return 0
+        return "No_oficial"
 datos_filtrados['cole_naturaleza'] = datos_filtrados['cole_naturaleza'].apply(categorizar_cole)
         
 datos_filtrados['fami_estratovivienda'] = datos_filtrados['fami_estratovivienda'].apply(categorizar_estrato)
@@ -202,11 +202,17 @@ print(datos_filtrados.dtypes)
 Aceptados = datos_filtrados['Puntaje_obtenido'].value_counts()['Aceptado']
 Rechazados = datos_filtrados['Puntaje_obtenido'].value_counts()['Rechazado']
 
+
+
 #Equilibrar muestra
 condicion = datos_filtrados['Puntaje_obtenido'] == 'Rechazado'
 indices_a_eliminar = datos_filtrados[condicion].sample(n=60000).index
 df_sin_filas = datos_filtrados.drop(indices_a_eliminar)
 
+of= df_sin_filas['cole_naturaleza'].value_counts()['Oficial']
+noof = df_sin_filas['cole_naturaleza'].value_counts()['No_oficial']
+
 Aceptados = df_sin_filas['Puntaje_obtenido'].value_counts()['Aceptado']
-Rechazados = df_sin_filas['Puntaje_obtenido'].value_counts()['Rechazado']
+Rechazados= df_sin_filas['Puntaje_obtenido'].value_counts()['Rechazado']
+
 #datos_filtrados.to_csv("datos_filtrados", index=False)
