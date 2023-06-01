@@ -95,7 +95,7 @@ for i, v in enumerate(y):
 
 # agregar leyenda
 ax.legend(loc="upper center", bbox_to_anchor=[0.5,-0.1], ncol=4)
-ax.set_title('Puntaje Obtenido según la ubicación', fontsize = 16, pad=30)
+ax.set_title('Puntaje obtenido según la ubicación', fontsize = 16, pad=30)
 ax.set_xticks(x)
 ax.set_xticklabels(['                         Reprobaron','','                         Aprobaron',''])
 plt.show()
@@ -139,7 +139,7 @@ for i, v in enumerate(y):
 
 # agregar leyenda
 ax.legend(loc="upper center", bbox_to_anchor=[0.5,-0.1], ncol=4)
-ax.set_title('Puntaje Obtenido según el colegio', fontsize = 16, pad=30)
+ax.set_title('Puntaje obtenido según el colegio', fontsize = 16, pad=30)
 ax.set_xticks(x)
 ax.set_xticklabels(['                         Reprobaron','','                         Aprobaron',''])
 
@@ -169,7 +169,7 @@ colores=["#6699FF","#99CCFF","#CCECFF","#33CCFF","#66FFCC","#CCFFCC","#99FF99","
          "#FFCC66","#FFCCCC","#FF9999"]
 ax.pie(valores, labels = None ,colors=colores, autopct='%1.1f%%', textprops={'fontsize': 8}, pctdistance=0.7)
 ax.legend(etiquetas, loc="right", bbox_to_anchor=(1.5, 0.5))
-plt.title("Educación de la madre", fontsize = 16)
+plt.title("Educación de la madre", fontsize = 15,pad=15)
 plt.show() 
 
 
@@ -195,7 +195,7 @@ colores=["#6699FF","#99CCFF","#CCECFF","#33CCFF","#66FFCC","#CCFFCC","#99FF99","
          "#FFCC66","#FFCCCC","#FF9999"]
 ax.pie(valores, labels = None ,colors=colores, autopct='%1.1f%%', textprops={'fontsize': 8}, pctdistance=0.7)
 ax.legend(etiquetas, loc="right", bbox_to_anchor=(1.5, 0.5))
-plt.title("Educación de la madre", fontsize = 16)
+plt.title("Educación del padre", fontsize = 15,pad=15)
 plt.show() 
 
 
@@ -314,12 +314,18 @@ valores = {'Estrato 0': [PI_0, PC_0, SBI_0, SBC_0, EPI_0, EPC_0, TI_0, TC_0, P_0
            'Estrato 5': [PI_5, PC_5, SBI_5, SBC_5, EPI_5, EPC_5, TI_5, TC_5, P_5, N_5, NS_5, NAP_5],
            'Estrato 6': [PI_6, PC_6, SBI_6, SBC_6, EPI_6, EPC_6, TI_6, TC_6, P_6, N_6, NS_6, NAP_6]}
 
-colores=["#6699FF","#99CCFF","#66FFCC","#CCFFCC","#CCFF99","#FFFF99"]
+colores=["#6699FF","#99CCFF","#66FFCC","#CCFFCC","#CCFF99","#FFFF99","#99FF99"]
 
 for estrato, color in zip(valores.keys(), colores):
     ax.plot(Educacion, valores[estrato], marker='o', color=color, label=estrato)
 
-plt.title("Educacion del padre según el estrato", fontsize = 16)
+# quitar los bordes del gráfico y los valores del eje y
+plt.gca().spines['top'].set_visible(False)
+plt.gca().spines['right'].set_visible(False)
+
+#plt.gca().set_yticks([])
+#plt.ylim(0, 100000)
+plt.title("Educacion del padre según el estrato", fontsize = 16,pad=30)
 ax.legend()
 plt.show()
 
@@ -444,16 +450,23 @@ valores = {'Estrato 0': [PI_0, PC_0, SBI_0, SBC_0, EPI_0, EPC_0, TI_0, TC_0, P_0
     
     """
     
-colores=["#6699FF","#99CCFF","#66FFCC","#CCFFCC","#CCFF99","#FFFF99"]
+colores=["#6699FF","#99CCFF","#66FFCC","#CCFFCC","#CCFF99","#FFFF99","#99FF99"]
 
 for estrato, color in zip(valores.keys(), colores):
     ax.plot(Educacion, valores[estrato], marker='o', color=color, label=estrato)
+    
+# quitar los bordes del gráfico y los valores del eje y
+plt.gca().spines['top'].set_visible(False)
+plt.gca().spines['right'].set_visible(False)
 
-plt.title("Educacion del padre según el estrato", fontsize = 16)
+#plt.gca().set_yticks([])
+#plt.ylim(0, 100000)
+
+plt.title("Educacion del padre según el estrato", fontsize = 16,pad=30)
 ax.legend()
 plt.show()
 
-ax.pie(valores, labels = etiquetas ,colors=colores, autopct='%1.1f%%')
+
 
 
 
