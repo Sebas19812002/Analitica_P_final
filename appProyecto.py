@@ -270,6 +270,136 @@ Htrazo_4 = go.Scatter(x=Educacion, y=HEstrato_4, mode='lines+markers', name='Est
 Htrazo_5 = go.Scatter(x=Educacion, y=HEstrato_5, mode='lines+markers', name='Estrato 5')
 Htrazo_6 = go.Scatter(x=Educacion, y=HEstrato_6, mode='lines+markers', name='Estrato 6')
 
+#############################################################################################################
+# Puntaje y Género
+# crear gráfica de barras
+fig, ax = plt.subplots()
+fig.subplots_adjust(top=1)
+
+Mujeres_Aprobaron= datos.loc[(datos['Puntaje_obtenido'] == 'Aceptado') & (datos['estu_genero'] == 1)].shape[0]
+Mujeres_Reprobaron = datos.loc[(datos['Puntaje_obtenido'] == 'Rechazado') & (datos['estu_genero'] == 1)].shape[0]
+Hombres_Aprobaron = datos.loc[(datos['Puntaje_obtenido'] == 'Aceptado') & (datos['estu_genero'] == 0)].shape[0]
+Hombres_Reprobaron = datos.loc[(datos['Puntaje_obtenido'] == 'Rechazado') & (datos['estu_genero'] == 0)].shape[0]
+
+y = [ Mujeres_Reprobaron, Hombres_Reprobaron,Mujeres_Aprobaron,Hombres_Aprobaron]
+x = ['1','2','3','4']
+
+#ax.bar(x, y, color=["#D7F47C", "#12B687","#5EC160","#90E0AE","#CFEFFC", "#8AD6F4","#3EAEF4","#81E2DF"],label="Adultos")
+ax.bar([0.1, 0.9], y[:2], color=["#8AD6F4", "#CFEFFC"])
+ax.bar([2.1, 2.9], y[2:], color=["#8AD6F4", "#CFEFFC"])
+ax.bar(x, y, color=["#8AD6F4","#3EAEF4","#81E2DF","#CFEFFC"],label="Mujeres")
+ax.bar(x, y, color=["#CFEFFC", "#12B687","#5EC160","#90E0AE"],label="Hombres")
+ax.bar(x, y, color=["#8AD6F4", "#12B687","#5EC160","#90E0AE"])
+ax.bar(x, y, color=["#CFEFFC", "#12B687","#5EC160","#90E0AE"])
+ax.bar(x, y, color=["#8AD6F4","#CFEFFC","#8AD6F4","#CFEFFC"])
+
+# quitar los bordes del gráfico y los valores del eje y
+plt.gca().spines['top'].set_visible(False)
+plt.gca().spines['right'].set_visible(False)
+plt.gca().spines['left'].set_visible(False)
+plt.gca().set_yticks([])
+
+for i, v in enumerate(y):
+    plt.text(i, v + 0.9, str(v), color='black', ha='center', va='bottom')  # Ajuste de la posición vertical
+
+# agregar leyenda
+ax.legend(loc="upper center", bbox_to_anchor=[0.5,-0.1], ncol=4)
+ax.set_title('Puntaje obtenido según el género', fontsize = 16, pad=30)
+ax.set_xticks(x)
+ax.set_xticklabels(['                         Reprobaron','','                         Aprobaron',''])
+plt.savefig('Puntaje_y_genero.png')
+
+
+
+
+
+
+
+
+# Puntaje y Ubicación
+# crear gráfica de barras
+fig, ax = plt.subplots()
+fig.subplots_adjust(top=1)
+
+Urbano_Aprobaron= datos.loc[(datos['Puntaje_obtenido'] == 'Aceptado') & (datos['cole_area_ubicacion'] == 'URBANO')].shape[0]
+Urbano_Reprobaron = datos.loc[(datos['Puntaje_obtenido'] == 'Rechazado') & (datos['cole_area_ubicacion'] == 'URBANO')].shape[0]
+Rural_Aprobaron = datos.loc[(datos['Puntaje_obtenido'] == 'Aceptado') & (datos['cole_area_ubicacion'] == 'RURAL')].shape[0]
+Rural_Reprobaron = datos.loc[(datos['Puntaje_obtenido'] == 'Rechazado') & (datos['cole_area_ubicacion'] == 'RURAL')].shape[0]
+
+y = [ Urbano_Reprobaron, Rural_Reprobaron,Urbano_Aprobaron,Rural_Aprobaron]
+x = ['1','2','3','4']
+
+#ax.bar(x, y, color=["#D7F47C", "#12B687","#5EC160","#90E0AE","#CFEFFC", "#8AD6F4","#3EAEF4","#81E2DF"],label="Adultos")
+ax.bar([0.1, 0.9], y[:2], color=["#CCECFF", "#CCCCFF"])
+ax.bar([2.1, 2.9], y[2:], color=["#CCECFF", "#CCCCFF"])
+ax.bar(x, y, color=["#CCECFF","#3EAEF4","#81E2DF","#CFEFFC"],label="Urbano")
+ax.bar(x, y, color=["#CCCCFF", "#12B687","#5EC160","#90E0AE"],label="Rural")
+ax.bar(x, y, color=["#CCECFF", "#12B687","#5EC160","#90E0AE"])
+ax.bar(x, y, color=["#CCCCFF", "#12B687","#5EC160","#90E0AE"])
+ax.bar(x, y, color=["#CCECFF","#CCCCFF","#CCECFF","#CCCCFF"])
+
+# quitar los bordes del gráfico y los valores del eje y
+plt.gca().spines['top'].set_visible(False)
+plt.gca().spines['right'].set_visible(False)
+plt.gca().spines['left'].set_visible(False)
+plt.gca().set_yticks([])
+
+for i, v in enumerate(y):
+    plt.text(i, v + 0.9, str(v), color='black', ha='center', va='bottom')  # Ajuste de la posición vertical
+
+# agregar leyenda
+ax.legend(loc="upper center", bbox_to_anchor=[0.5,-0.1], ncol=4)
+ax.set_title('Puntaje obtenido según la ubicación', fontsize = 16, pad=30)
+ax.set_xticks(x)
+ax.set_xticklabels(['                         Reprobaron','','                         Aprobaron',''])
+plt.savefig('Puntaje_y_ubicacion.png')
+
+
+
+
+
+
+
+# Puntaje y Colegio
+# crear gráfica de barras
+fig, ax = plt.subplots()
+fig.subplots_adjust(top=1)
+
+Oficial_Aprobaron= datos.loc[(datos['Puntaje_obtenido'] == 'Aceptado') & (datos['cole_naturaleza'] == "Oficial")].shape[0]
+Oficial_Reprobaron = datos.loc[(datos['Puntaje_obtenido'] == 'Rechazado') & (datos['cole_naturaleza'] == "Oficial")].shape[0]
+No_Oficial_Aprobaron = datos.loc[(datos['Puntaje_obtenido'] == 'Aceptado') & (datos['cole_naturaleza'] == "No_oficial")].shape[0]
+No_Oficial_Reprobaron = datos.loc[(datos['Puntaje_obtenido'] == 'Rechazado') & (datos['cole_naturaleza'] == "No_oficial")].shape[0]
+
+y = [ Oficial_Reprobaron, No_Oficial_Reprobaron,Oficial_Aprobaron,No_Oficial_Aprobaron]
+x = ['1','2','3','4']
+
+#ax.bar(x, y, color=["#D7F47C", "#12B687","#5EC160","#90E0AE","#CFEFFC", "#8AD6F4","#3EAEF4","#81E2DF"],label="Adultos")
+ax.bar([0.1, 0.9], y[:2], color=["#8AD6F4", "#CFEFFC"])
+ax.bar([2.1, 2.9], y[2:], color=["#8AD6F4", "#CFEFFC"])
+ax.bar(x, y, color=["#8AD6F4","#3EAEF4","#81E2DF","#CFEFFC"],label="Oficial")
+ax.bar(x, y, color=["#CFEFFC", "#12B687","#5EC160","#90E0AE"],label="No Oficial")
+ax.bar(x, y, color=["#8AD6F4", "#12B687","#5EC160","#90E0AE"])
+ax.bar(x, y, color=["#CFEFFC", "#12B687","#5EC160","#90E0AE"])
+ax.bar(x, y, color=["#8AD6F4","#CFEFFC","#8AD6F4","#CFEFFC"])
+
+# quitar los bordes del gráfico y los valores del eje y
+plt.gca().spines['top'].set_visible(False)
+plt.gca().spines['right'].set_visible(False)
+plt.gca().spines['left'].set_visible(False)
+plt.gca().set_yticks([])
+
+for i, v in enumerate(y):
+    plt.text(i, v + 0.1, str(v), color='black', ha='center', va='bottom')  # Ajuste de la posición vertical
+
+# agregar leyenda
+ax.legend(loc="upper center", bbox_to_anchor=[0.5,-0.1], ncol=4)
+ax.set_title('Puntaje obtenido según el colegio', fontsize = 16, pad=30)
+ax.set_xticks(x)
+ax.set_xticklabels(['                         Reprobaron','','                         Aprobaron',''])
+
+plt.savefig('Puntaje_y_colegio.png')
+
+########################################################################################################################3
 
 fig_m = go.Figure(data=[trazo_0, trazo_1, trazo_2, trazo_3, trazo_4, trazo_5, trazo_6])
 fig_h = go.Figure(data=[Htrazo_0, Htrazo_1, Htrazo_2, Htrazo_3, Htrazo_4, Htrazo_5, Htrazo_6])
@@ -300,25 +430,37 @@ tab2=dcc.Tab(label='Información del padre',children=[
     ) 
 ])
 
-fig, ax = plt.subplots()
-etiquetas = ["Joven Adulto","Adultos","Adultos Mayores","Tercera Edad"]
-valores = [(datos["age"]==1).sum(),(datos["age"]==2).sum(),(datos["age"]==3).sum(),(datos["age"]==4).sum()]
-colores=["#CFEFFC", "#8AD6F4","#3EAEF4","#81E2DF"]
-ax.pie(valores, labels = etiquetas ,colors=colores, autopct='%1.1f%%', textprops = {'fontsize': 14})
-plt.title("Edad de la muestra", fontsize = 18)
-fig.subplots_adjust(top=0.9,bottom=0.01,left=0.008)
-plt.savefig('Exploracion2.png')
+Exploracion1='Puntaje_y_genero.png'
+encoded_image = base64.b64encode(open(Exploracion1, 'rb').read())
+exp1 = html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()),
+    style={'display': 'inline-block', 'margin-right': '10px','width': '30%', 'float': 'left'})
+
+Exploracion2='Puntaje_y_ubicacion.png'
+encoded_image = base64.b64encode(open(Exploracion2, 'rb').read())
+exp2 = html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()),
+    style={'display': 'inline-block', 'margin-right': '10px','width': '30%', 'float': 'left'})
+
+
+Exploracion3='Puntaje_y_colegio.png'
+encoded_image = base64.b64encode(open(Exploracion3, 'rb').read())
+exp3 = html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()),
+    style={'display': 'inline-block', 'margin-right': '10px','width': '30%', 'float': 'left'})
+
+
+
 
 
 tab3=dcc.Tab(label='Información de la muestra',children=[
     html.Div('En esta pestaña se encuentran gráficas asociadas a la muestra en general.'),
-    html.Br()
-
+    html.Br(),
+    html.Div(exp1),
+    html.Div(exp2),
+    html.Div(exp3)
 ])
 
 
 
-pestanas = [tab1, tab2]
+pestanas = [tab1, tab2, tab3]
 tabs = dcc.Tabs(children=pestanas)
 
 
