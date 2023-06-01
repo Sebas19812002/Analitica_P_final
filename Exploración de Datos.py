@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
-datos = pd.read_csv("Datos_a_usar.csv")
+datos = pd.read_csv("Datos_sin_filtro.csv")
 datos.head()
 print(datos)
 
@@ -17,8 +17,7 @@ for columna in datos.columns:
     print()
 
 #Eliminar datos 
-columnas_a_eliminar = ['periodo', 'punt_ingles','punt_matematicas','punt_sociales_ciudadanas','punt_c_naturales',
-                       'punt_lectura_critica']
+columnas_a_eliminar = ['periodo']
 datos_nuevas_col = datos.drop(columnas_a_eliminar, axis=1)
 
 # Conocer los datos que contiene cada Columna
@@ -34,18 +33,6 @@ for columna in datos_nuevas_col.columns:
 valores_validos = ['F', 'M']
 datos_filtrados = datos_nuevas_col[datos_nuevas_col['estu_genero'].isin(valores_validos)]
  
-####  'estu_nacionalidad'
-valores_validos = [['COLOMBIA','VENEZUELA', 'ECUADOR','PERÚ' 'ESPAÑA',
-                    'PANAMÁ','VANUATU','VIETNAM','ARGENTINA','SENEGAL','ALEMANIA',
-                    'BOLIVIA','CHILE' ,'BRASIL', 'COSTA RICA', 'EL SALVADOR',
-                    'PAÍSES BAJOS - HOLANDA','WALLIS Y FUTUNA','ESTADOS UNIDOS', 'ITALIA',
-                    'FRANCIA', 'GUATEMALA' , 'CUBA' ,'REINO UNIDO' ,'AUSTRIA', 'URUGUAY',
-                    'MÉXICO', 'ARUBA', 'JORDANIA', 'LETONIA', 'CURAZAO','REPÚBLICA DOMINICANA',
-                    'BÉLGICA', 'CHINA', 'TURQUÍA' ,'COREA DEL SUR' ,'CABO VERDE', 'COREA DEL NORTE',
-                    'SUIZA', 'ARGELIA', 'HONDURAS', 'JAPÓN', 'PORTUGAL' ,
-                    'PUERTO RICO', 'NICARAGUA']]
-datos_filtrados = datos_nuevas_col[datos_nuevas_col['estu_nacionalidad'].isin(valores_validos)]
-
 ####  'fami_educacionmadre'
 valores_validos = ['Secundaria (Bachillerato) completa', 'Primaria incompleta', 'Ninguno',
                    'Postgrado', 'No sabe', 'Primaria completa', 'Técnica o tecnológica completa',
@@ -92,6 +79,7 @@ def categorizar_personas_hogar(fami_personashogar):
         return 'Alto'
 
 datos_filtrados['Personas_hogar'] = datos_filtrados['fami_personashogar'].apply(categorizar_personas_hogar)
+
 
 def categorizar_educacion_madre(fami_educacionmadre):
     if fami_educacionmadre == 'Secundaria (Bachillerato) completa' :
@@ -155,9 +143,19 @@ def categorizar_educacion_padre(fami_educacionpadre):
 
 datos_filtrados['Educacion_Padre'] = datos_filtrados['fami_educacionpadre'].apply(categorizar_educacion_padre)
 
+def categorizar_puntaje(punt_global):
+    if punt_global >= 320 :
+        return 'Aceptado'
+    elif punt_global < 320:
+        return 'Rechazado'
+    else:
+        return 'Hay algo mal'
+
+datos_filtrados['Puntaje_obtenido'] = datos_filtrados['punt_global'].apply(categorizar_puntaje)
+
 
 ### Eliminar las columnas sin categorizar 
-columnas_a_eliminar = ['fami_personashogar','fami_educacionmadre','fami_educacionpadre']
+columnas_a_eliminar = ['fami_personashogar','fami_educacionmadre','fami_educacionpadre','punt_global']
 datos_filtrados = datos_filtrados.drop(columnas_a_eliminar, axis=1)
 
 
