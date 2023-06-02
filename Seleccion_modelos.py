@@ -191,7 +191,7 @@ from pgmpy.readwrite import BIFWriter
 #-------------------------------------------------------------#
 
 print("#-----------------------Modelo suavizado----------------------------#")
-modelo = BIFReader("Modelo_suavizado").get_model()
+modelo = BIFReader("Modelo_suavizado.bif").get_model()
 modelo.check_model()
 print("Nodos y edges\n",modelo.nodes(),"\n",modelo.edges(),"\n")
 
@@ -199,8 +199,3 @@ modelo_estructura=BayesianNetwork(list(modelo.edges()))
 Resultados=Metricas(df_prueba, modelo, "B")
 print("Resultados del modelo ","\n",Resultados,"\n")
 
-puntajeK2 = K2Score(data=df_ent).score(modelo_estructura)
-print("K2 Score","\n",puntajeK2)
-
-puntajeBIC = BicScore(data=df_ent).score(modelo_estructura)
-print("BIC Score","\n",puntajeBIC,"\n")

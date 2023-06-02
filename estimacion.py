@@ -40,8 +40,8 @@ mod_fit.check_model()
 
 
 #Serializar el modelo
-#writer = BIFWriter(mod_fit)
-#writer.write_bif(filename='Modelo.bif')
+writer = BIFWriter(mod_fit)
+writer.write_bif(filename='Modelo.bif')
 modelo = BIFReader("Modelo.bif").get_model()
 
 modelo.check_model()
