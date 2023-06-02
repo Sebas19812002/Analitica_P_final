@@ -452,6 +452,11 @@ exp3 = html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()),
 tab3=dcc.Tab(label='Información de la muestra',children=[
     html.Div('En esta pestaña se encuentran gráficas asociadas a la muestra en general.'),
     html.Br(),
+    html.Div([
+    html.H6("Puntaje obtenido según el género", style={'display': 'inline-block','margin-right': '20px','margin-left': '10px','width': '26%','text-align': 'center','display': 'inline-block'}),
+    html.H6("Puntaje obtenido según la ubicación", style={'display': 'inline-block','margin-right': '20px','margin-left': '20px','width': '26%','text-align': 'center','display': 'inline-block'}),
+    html.H6("Puntaje obtenido según el colegio", style={'display': 'inline-block','margin-right': '20px','margin-left': '20px','width': '26%','text-align': 'center','display': 'inline-block'})], style={'text-align': 'center'}),
+    html.Br(),
     html.Div(exp1),
     html.Div(exp2),
     html.Div(exp3)
