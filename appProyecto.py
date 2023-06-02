@@ -480,70 +480,81 @@ app.layout = html.Div([
                 options=[{'label': i, 'value': i} for i in [ 'Modelo Normal','Modelo Suavizado']],
                 labelStyle={'display': 'inline-block'},value='Modelo Normal'), 
                 html.Br()]),
-    
-     html.Div(["Genero del estudiante: ",
-                dcc.RadioItems(
+    html.Br(),
+    html.Div(children=[
+        html.Div(["Genero del estudiante: ",
+            dcc.RadioItems(
                 id='Radio-1',
                 options=[{'label': i, 'value': i} for i in ['Femenino', 'Masculino']],
-                labelStyle={'display': 'inline-block'}), 
-                html.Br()],
-                style={'display': 'inline-block', 'margin-right': '10px','width': '22%', 'float': 'left', 'display': 'inline-block'}),
-     
-     html.Div(["Área de ubicación: ",
-              dcc.RadioItems(
+            ), 
+            html.Br()],
+            style={'padding': 10, 'flex': 1}),
+        
+        html.Div(["Área de ubicación: ",
+            dcc.RadioItems(
                 id='Radio-2',
-                options=[{'label': i, 'value': i} for i in ["Urbano","Rural"]],value="Seleccione"),
-                html.Br()],
-                style={'display': 'inline-block', 'margin-right': '10px','width': '22%', 'float': 'left', 'display': 'inline-block'}),
-    html.Br(),
-    
-    html.Div(["Categoría del Colegio: ",
-              dcc.RadioItems(
+                options=[{'label': i, 'value': i} for i in ["Urbano","Rural"]],
+                value="Seleccione"
+            ),
+            html.Br()],
+            style={'padding': 10, 'flex': 1}),
+
+        html.Div(["Categoría del Colegio: ",
+            dcc.RadioItems(
                 id='Radio-3',
-                options=[{'label': i, 'value': i} for i in ["Oficial","No Oficial"]],value="Seleccione"),
-                html.Br()],
-                style={'margin-right': '10px','width': '22%', 'float': 'left'}),
+                options=[{'label': i, 'value': i} for i in ["Oficial","No Oficial"]],value="Seleccione"
+            ),
+            html.Br()],
+            style={'padding': 10, 'flex': 1}),
+    ], style={'display': 'flex', 'flex-direction': 'row'}),
+
+    html.Br(),
+    html.Div(children=[
+        html.Div(["Estrato de residencia del estudiante: ",
+                dcc.Dropdown(
+                    id='dropdown-1',
+                    options=[{'label': i, 'value': i} for i in ['Estrato 1','Estrato 2','Estrato 3','Estrato 4','Estrato 5','Estrato 6','Sin Estrato']],value="Seleccione"),
+                    html.Br()],
+                    style={'padding': 10, 'flex': 1}),
     
-    html.Div(["Estrato de residencia del estudiante: ",
-              dcc.Dropdown(
-                id='dropdown-1',
-                options=[{'label': i, 'value': i} for i in ['Estrato 1','Estrato 2','Estrato 3','Estrato 4','Estrato 5','Estrato 6','Sin Estrato']],value="Seleccione"),
-                html.Br()],
-                style={'display': 'inline-block', 'margin-right': '10px','width': '22%', 'float': 'left', 'display': 'inline-block'}),
-   
-    html.Div(["Número de personas en la vivienda: ",
-              dcc.Dropdown(
-                id='dropdown-2',
-                options=[{'label': i, 'value': i} for i in ["1 a 4","5 a 6","Más de 7"]],value="Seleccione"),
-                html.Br()],
-                style={'display': 'inline-block', 'margin-right': '10px','width': '22%', 'float': 'left', 'display': 'inline-block'}), 
+        html.Div(["Número de personas en la vivienda: ",
+                dcc.Dropdown(
+                    id='dropdown-2',
+                    options=[{'label': i, 'value': i} for i in ["1 a 4","5 a 6","Más de 7"]],value="Seleccione"),
+                    html.Br()],
+                    style={'padding': 10, 'flex': 1}), 
+        
+        html.Div(["Educación de la madre: ",
+                dcc.Dropdown(
+                    id='dropdown-3',
+                    options=[{'label': i, 'value': i} for i in ['Primaria incompleta','Primaria completa',
+                                                                'Secundaria (Bachillerato) incompleta','Secundaria (Bachillerato) completa',
+                                                                'Técnica o tecnológica incompleta','Técnica o tecnológica completa',
+                                                                'Educación profesional incompleta' ,'Educación profesional completa',
+                                                                'Postgrado','No sabe','Ninguno' ,'No Aplica']],value="Seleccione"),
+                    html.Br()],
+                    style={'padding': 10, 'flex': 1}),
+    
+        html.Div(["Educación del padre: ",
+                dcc.Dropdown(
+                    id='dropdown-4',
+                    options=[{'label': i, 'value': i} for i in ['Primaria incompleta','Primaria completa',
+                                                                'Secundaria (Bachillerato) incompleta','Secundaria (Bachillerato) completa',
+                                                                'Técnica o tecnológica incompleta','Técnica o tecnológica completa',
+                                                                'Educación profesional incompleta' ,'Educación profesional completa',
+                                                                'Postgrado','No sabe','Ninguno' ,'No Aplica']],value="Seleccione"),
+                    html.Br()],
+                    style={'padding': 10, 'flex': 1}),
+    ], style={'display': 'flex', 'flex-direction': 'row'}),
+
     html.Br(),
-    html.Div(["Educación de la madre: ",
-              dcc.Dropdown(
-                id='dropdown-3',
-                options=[{'label': i, 'value': i} for i in ['Primaria incompleta','Primaria completa',
-                                                            'Secundaria (Bachillerato) incompleta','Secundaria (Bachillerato) completa',
-                                                            'Técnica o tecnológica incompleta','Técnica o tecnológica completa',
-                                                            'Educación profesional incompleta' ,'Educación profesional completa',
-                                                            'Postgrado','No sabe','Ninguno' ,'No Aplica']],value="Seleccione"),
-                html.Br()],
-                style={'display': 'inline-block', 'margin-right': '10px','width': '22%', 'float': 'left', 'display': 'inline-block'}),
-   
-    html.Div(["Educación del padre: ",
-              dcc.Dropdown(
-                id='dropdown-4',
-                options=[{'label': i, 'value': i} for i in ['Primaria incompleta','Primaria completa',
-                                                            'Secundaria (Bachillerato) incompleta','Secundaria (Bachillerato) completa',
-                                                            'Técnica o tecnológica incompleta','Técnica o tecnológica completa',
-                                                            'Educación profesional incompleta' ,'Educación profesional completa',
-                                                            'Postgrado','No sabe','Ninguno' ,'No Aplica']],value="Seleccione"),
-                html.Br()],
-                style={'display': 'inline-block', 'margin-right': '10px','width': '22%', 'float': 'left', 'display': 'inline-block'}),
-    html.Br(),      
+    html.Div([
+        html.Button('Continuar', id='button', n_clicks=0,style={'text-align': 'center'})],
+        style={'text-align': 'center'}),
     html.Br(),
-    html.Br(),
-    html.Button('Continuar', id='button', n_clicks=0,style={'marginLeft': 'auto', 'marginRight': 'auto','text-align': 'center'}),
-    html.Button('Vaciar todo', id='reset-button',n_clicks=0,style={'marginLeft': 'auto', 'marginRight': 'auto','text-align': 'center'}),
+    html.Div([
+        html.Button('Vaciar todo', id='reset-button',n_clicks=0,style={'text-align': 'center'})],
+        style={'text-align': 'center'}),
 
     html.Div(id='alert-container'),
     html.Div(id='output'),
@@ -582,17 +593,15 @@ def validate_selection (n_clicks,radio1,radio2,radio3,radio4, dropdown1, dropdow
         resultado=F.estimar(radio1,radio2, radio3,radio4, dropdown1, dropdown2, dropdown3, dropdown4)
         tabla=html.Table([
                 html.Tr([
-                    html.Td(''),
                     html.Td('Probabilidad de ser aceptado'),
                     html.Td('Probabilidad de ser rechazado')
                 ]),
-
                 html.Tr([
-                 
-                    html.Td(f"{round(resultado[0],2)*100}%", style={'text-align': 'center'}),
-                    html.Td(f"{round(resultado[1],2)*100}%", style={'text-align': 'center'})
+                    html.Td(f"{round(resultado[0]*100,2)}%", style={'text-align': 'center'}),
+                    html.Td(f"{round(resultado[1]*100,2)}%", style={'text-align': 'center'})
                 ])],
                 style={'marginLeft': 'auto', 'marginRight': 'auto'})
+        
         tabla1=html.Table([
                 html.Tr([
                     html.Td('Modelo:  '),
