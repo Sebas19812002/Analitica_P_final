@@ -306,7 +306,7 @@ NAP_4= datos.loc[(datos['fami_estratovivienda'] == 4) & (datos["Educacion_Madre"
 NAP_5= datos.loc[(datos['fami_estratovivienda'] == 5) & (datos["Educacion_Madre"]=='NAP')].shape[0]
 NAP_6= datos.loc[(datos['fami_estratovivienda'] == 6) & (datos["Educacion_Madre"]=='NAP')].shape[0]  
 
-valores = {'Estrato 0': [PI_0, PC_0, SBI_0, SBC_0, EPI_0, EPC_0, TI_0, TC_0, P_0, N_0, NS_0, NAP_0],
+valores = {'No Sabe/Ninguno': [PI_0, PC_0, SBI_0, SBC_0, EPI_0, EPC_0, TI_0, TC_0, P_0, N_0, NS_0, NAP_0],
            'Estrato 1': [PI_1, PC_1, SBI_1, SBC_1, EPI_1, EPC_1, TI_1, TC_1, P_1, N_1, NS_1, NAP_1],
            'Estrato 2': [PI_2, PC_2, SBI_2, SBC_2, EPI_2, EPC_2, TI_2, TC_2, P_2, N_2, NS_2, NAP_2],
            'Estrato 3': [PI_3, PC_3, SBI_3, SBC_3, EPI_3, EPC_3, TI_3, TC_3, P_3, N_3, NS_3, NAP_3],
@@ -435,7 +435,7 @@ NAP_4= datos.loc[(datos['fami_estratovivienda'] == 4) & (datos["Educacion_Padre"
 NAP_5= datos.loc[(datos['fami_estratovivienda'] == 5) & (datos["Educacion_Padre"]=='NAP')].shape[0]
 NAP_6= datos.loc[(datos['fami_estratovivienda'] == 6) & (datos["Educacion_Padre"]=='NAP')].shape[0]  
 
-valores = {'Estrato 0': [PI_0, PC_0, SBI_0, SBC_0, EPI_0, EPC_0, TI_0, TC_0, P_0, N_0, NS_0, NAP_0],
+valores = {'No Sabe/Ninguno': [PI_0, PC_0, SBI_0, SBC_0, EPI_0, EPC_0, TI_0, TC_0, P_0, N_0, NS_0, NAP_0],
            'Estrato 1': [PI_1, PC_1, SBI_1, SBC_1, EPI_1, EPC_1, TI_1, TC_1, P_1, N_1, NS_1, NAP_1],
            'Estrato 2': [PI_2, PC_2, SBI_2, SBC_2, EPI_2, EPC_2, TI_2, TC_2, P_2, N_2, NS_2, NAP_2],
            'Estrato 3': [PI_3, PC_3, SBI_3, SBC_3, EPI_3, EPC_3, TI_3, TC_3, P_3, N_3, NS_3, NAP_3],
@@ -443,13 +443,7 @@ valores = {'Estrato 0': [PI_0, PC_0, SBI_0, SBC_0, EPI_0, EPC_0, TI_0, TC_0, P_0
            'Estrato 5': [PI_5, PC_5, SBI_5, SBC_5, EPI_5, EPC_5, TI_5, TC_5, P_5, N_5, NS_5, NAP_5],
            'Estrato 6': [PI_6, PC_6, SBI_6, SBC_6, EPI_6, EPC_6, TI_6, TC_6, P_6, N_6, NS_6, NAP_6]}
 
-"""colores=["#6699FF","#99CCFF","#CCECFF","#33CCFF","#66FFCC","#CCFFCC","#99FF99","#CCFF99","#FFFF99",
-         "#FFCC66","#FFCCCC","#FF9999"]
-    for estrato, valores_educacion in valores.items():
-    ax.plot(Educacion, valores_educacion,colors=colores, marker='o', label=estrato)
-    
-    """
-    
+
 colores=["#6699FF","#99CCFF","#66FFCC","#CCFFCC","#CCFF99","#FFFF99","#99FF99"]
 
 for estrato, color in zip(valores.keys(), colores):
